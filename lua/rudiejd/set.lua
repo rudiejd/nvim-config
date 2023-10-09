@@ -16,4 +16,5 @@ vim.opt.backup = false
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
 
