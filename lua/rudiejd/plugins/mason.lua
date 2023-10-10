@@ -7,7 +7,7 @@ return {
         end
     },
     {"williamboman/mason-lspconfig.nvim",
-        ensure_installed = {"lua_ls", "rust_analyzer", "csharp_ls"},
+        ensure_installed = {"lua_ls", "rust_analyzer", "omnisharp"},
         handlers = {
             lsp_zero.default_setup
         },
