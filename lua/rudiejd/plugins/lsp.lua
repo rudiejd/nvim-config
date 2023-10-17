@@ -22,23 +22,28 @@ return {
             { 'L3MON4D3/LuaSnip' },
         },
         config = function()
-            -- Here is where you configure the autocompletion settings.
             local lsp_zero = require('lsp-zero')
+
+            -- formatter config
+            lsp_zero.on_attach(function(client, bufnr)
+                lsp_zero.default_keymaps({ buffer = bufnr })
+                lsp_zero.buffer_autoformat()
+            end)
+
+
+            -- autocomplete config
             lsp_zero.extend_cmp()
 
-            -- And you can configure cmp even more, if you want to.
             local cmp = require('cmp')
-            local cmp_action = lsp_zero.cmp_action()
             local has_words_before = function()
                 unpack = unpack or table.unpack
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
                 return col ~= 0 and
-                vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+                    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
             end
             cmp.setup({
                 formatting = lsp_zero.cmp_format(),
                 mapping = {
-
                     -- supertab like configuration from https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#super-tab-like-mapping
                     ['<C-Space>'] = cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Insert,
@@ -92,7 +97,7 @@ return {
             -- (Optional) Configure lua language server for neovim
             local lua_opts = lsp_zero.nvim_lua_ls()
             require('lspconfig').lua_ls.setup(lua_opts)
-            require('lspconfig').rust_analyzer.setup({});
+            require('lspconfig').rust_analyzer.setup({})
             require('lspconfig').omnisharp.setup({
                 handlers = {
                     ["textDocument/definition"] = require("omnisharp_extended").handler
@@ -100,5 +105,5 @@ return {
                 cmd = { "omnisharp", "--languageserver" }
             });
         end
-    }
+    },
 }
