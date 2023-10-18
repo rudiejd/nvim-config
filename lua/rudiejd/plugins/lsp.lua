@@ -102,7 +102,7 @@ return {
                 handlers = {
                     ["textDocument/definition"] = require("omnisharp_extended").handler
                 },
-                cmd = { "omnisharp", "--languageserver" }
+                cmd = { "omnisharp", "--languageserver" },
             });
         end
     },
