@@ -90,15 +90,7 @@ return {
                       },
                       size = 40, -- 40 columns
                       position = "left",
-                    },
-                    {
-                      elements = {
-                        "repl",
-                        "console",
-                      },
-                      size = 0.25, -- 25% of total lines
-                      position = "bottom",
-                    },
+                    }
                   },
                   controls = {
                     -- Requires Neovim nightly (or 0.8 when released)
@@ -141,6 +133,7 @@ return {
                 dap.listeners.before.event_exited["dapui_config"] = function()
                   dapui.close()
                 end
+                vim.fn.sign_define('DapBreakpoint', {text='•', texthl='red', linehl='', numhl=''})
             end
     }
 }

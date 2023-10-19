@@ -1,7 +1,6 @@
-return { "ellisonleao/gruvbox.nvim", 
+return { "folke/tokyonight.nvim",
     config = function()
-        vim.o.background = 'dark'
-        vim.cmd([[colorscheme gruvbox]])
+        vim.cmd([[colorscheme tokyonight]])
     end
 }
 
