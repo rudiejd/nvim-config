@@ -44,12 +44,14 @@ return {
             cmp.setup({
                 formatting = lsp_zero.cmp_format(),
                 mapping = {
-                    -- supertab like configuration from https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#super-tab-like-mapping
-                    ['<C-Space>'] = cmp.mapping.confirm {
+
+                    -- i like enter better than ctrl - space for accepting completion
+                    ['<CR>'] = cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Insert,
                         select = true,
                     },
 
+                    -- supertab like configuration from https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#super-tab-like-mapping
                     ['<Tab>'] = function(fallback)
                         if not cmp.select_next_item() then
                             if vim.bo.buftype ~= 'prompt' and has_words_before() then
