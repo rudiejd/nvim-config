@@ -20,6 +20,8 @@ return {
         event = 'InsertEnter',
         dependencies = {
             { 'L3MON4D3/LuaSnip' },
+            { 'onsails/lspkind' },
+            { 'hrsh7th/cmp-buffer' }
         },
         config = function()
             local lsp_zero = require('lsp-zero')
@@ -70,6 +72,17 @@ return {
                         end
                     end,
                 },
+                sources =  {
+                    {
+                        name = 'buffer',
+                        option = {
+                            keyword_length = 5
+                        }
+                    },
+                    {
+                        name = 'nvim_lsp'
+                    }
+                }
             })
         end
     },
@@ -81,6 +94,8 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             { 'hrsh7th/cmp-nvim-lsp' },
+            { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+            { 'folke/neodev.nvim' }
         },
         config = function()
             -- This is where all the LSP shenanigans will live
@@ -100,10 +115,18 @@ return {
             require('lspconfig').rust_analyzer.setup({})
             require('lspconfig').omnisharp.setup({
                 handlers = {
-                    ["textDocument/definition"] = require("omnisharp_extended").handler
-                },
-                cmd = { "omnisharp", "--languageserver" },
-            });
+                            ["textDocument/definition"] = require('omnisharp_extended').handler,
+                            ["textDocument/publishDiagnostic"] = vim.lsp.with(
+                                vim.lsp.diagnostic.on_publish_diagnostics, {
+                                    underline = true,
+                                    update_in_insert = true,
+                                    signs = true,
+                                    virtual_text = false,
+                                }
+                            )
+                        },
+                        cmd = { "omnisharp" }
+                })
         end
     },
 }
