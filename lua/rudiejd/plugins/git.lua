@@ -1,6 +1,12 @@
 return {
     { "tpope/vim-fugitive" },
     {
+        "tommcdo/vim-fubitive",
+        config = function ()
+            vim.g.fubitive_domain_pattern = "bitbucket.build.dkinternal.com"
+        end
+    },
+    {
         -- Adds git related signs to the gutter, as well as utilities for managing changes
         'lewis6991/gitsigns.nvim',
         opts = {

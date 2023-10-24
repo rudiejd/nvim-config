@@ -20,7 +20,7 @@ return {
         event = 'InsertEnter',
         dependencies = {
             { 'L3MON4D3/LuaSnip' },
-            { 'onsails/lspkind' },
+            { 'onsails/lspkind.nvim' },
             { 'hrsh7th/cmp-buffer' }
         },
         config = function()
@@ -43,8 +43,23 @@ return {
                 return col ~= 0 and
                     vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
             end
+
+            local lspkind = require('lspkind')
             cmp.setup({
-                formatting = lsp_zero.cmp_format(),
+                formatting = { 
+                    format = lspkind.cmp_format({
+                          mode = 'symbol_text', -- show only symbol annotations
+                          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+
+                          -- The function below will be called before any actual modifications from lspkind
+                          -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+                          -- before = function (entry, vim_item)
+                          --   ...
+                          --   return vim_item
+                          -- end
+                        })
+                }, 
                 mapping = {
 
                     -- i like enter better than ctrl - space for accepting completion
@@ -74,15 +89,20 @@ return {
                         end
                     end,
                 },
-                sources =  {
+                sources = {
                     {
                         name = 'buffer',
                         option = {
-                            keyword_length = 5
+                            keyword_length = 1
                         }
                     },
                     {
-                        name = 'nvim_lsp'
+                        name = 'nvim_lsp',
+                        option = {
+                            keyword_length = 6,
+                            group_index = 1,
+                            max_item_count = 30
+                        }
                     }
                 }
             })
@@ -96,8 +116,9 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             { 'hrsh7th/cmp-nvim-lsp' },
-            { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
-            { 'folke/neodev.nvim' }
+            { 'j-hui/fidget.nvim',   tag = 'legacy', opts = {} },
+            { 'folke/neodev.nvim' },
+            { 'ray-x/lsp_signature.nvim' }
         },
         config = function()
             -- This is where all the LSP shenanigans will live
@@ -115,20 +136,34 @@ return {
             local lua_opts = lsp_zero.nvim_lua_ls()
             require('lspconfig').lua_ls.setup(lua_opts)
             require('lspconfig').rust_analyzer.setup({})
-            require('lspconfig').omnisharp.setup({
-                handlers = {
-                            ["textDocument/definition"] = require('omnisharp_extended').handler,
-                            ["textDocument/publishDiagnostic"] = vim.lsp.with(
-                                vim.lsp.diagnostic.on_publish_diagnostics, {
-                                    underline = true,
-                                    update_in_insert = true,
-                                    signs = true,
-                                    virtual_text = false,
-                                }
-                            )
-                        },
-                        cmd = { "omnisharp" }
-                })
+            -- require('lspconfig').omnisharp.setup({
+            --     handlers = {
+            --         ["textDocument/definition"] = require('omnisharp_extended').handler,
+            --         ["textDocument/publishDiagnostic"] = vim.lsp.with(
+            --             vim.lsp.diagnostic.on_publish_diagnostics, {
+            --                 underline = true,
+            --                 update_in_insert = true,
+            --                 signs = true,
+            --                 virtual_text = false,
+            --             }
+            --         )
+            --     },
+            --     cmd = { "omnisharp" }
+            -- })
+            --
+           local util = require('lspconfig').util
+            require('lspconfig').csharp_ls.setup({
+               root_dir = function(fname)
+                  local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
+                  for _, pattern in ipairs(root_patterns) do
+                    local found = util.root_pattern(pattern)(fname)
+                    if found then
+                      return found
+                    end
+                  end
+                end,
+            })
+            require('lsp_signature').setup({})
         end
     },
 }
