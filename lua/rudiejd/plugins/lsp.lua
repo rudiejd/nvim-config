@@ -136,33 +136,33 @@ return {
             local lua_opts = lsp_zero.nvim_lua_ls()
             require('lspconfig').lua_ls.setup(lua_opts)
             require('lspconfig').rust_analyzer.setup({})
-            -- require('lspconfig').omnisharp.setup({
-            --     handlers = {
-            --         ["textDocument/definition"] = require('omnisharp_extended').handler,
-            --         ["textDocument/publishDiagnostic"] = vim.lsp.with(
-            --             vim.lsp.diagnostic.on_publish_diagnostics, {
-            --                 underline = true,
-            --                 update_in_insert = true,
-            --                 signs = true,
-            --                 virtual_text = false,
-            --             }
-            --         )
-            --     },
-            --     cmd = { "omnisharp" }
-            -- })
-            --
-           local util = require('lspconfig').util
-            require('lspconfig').csharp_ls.setup({
-               root_dir = function(fname)
-                  local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
-                  for _, pattern in ipairs(root_patterns) do
-                    local found = util.root_pattern(pattern)(fname)
-                    if found then
-                      return found
-                    end
-                  end
-                end,
+            require('lspconfig').omnisharp.setup({
+                handlers = {
+                    ["textDocument/definition"] = require('omnisharp_extended').handler,
+                    ["textDocument/publishDiagnostic"] = vim.lsp.with(
+                        vim.lsp.diagnostic.on_publish_diagnostics, {
+                            underline = true,
+                            update_in_insert = true,
+                            signs = true,
+                            virtual_text = false,
+                        }
+                    )
+                },
+                cmd = { "omnisharp" }
             })
+
+           local util = require('lspconfig').util
+            -- require('lspconfig').csharp_ls.setup({
+            --    root_dir = function(fname)
+            --       local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
+            --       for _, pattern in ipairs(root_patterns) do
+            --         local found = util.root_pattern(pattern)(fname)
+            --         if found then
+            --           return found
+            --         end
+            --       end
+            --     end,
+            -- })
             require('lsp_signature').setup({})
         end
     },

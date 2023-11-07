@@ -1,0 +1,33 @@
+""" Weird idea vim plugins
+Plug 'machakann/vim-highlightedyank'
+" Extended matching. Supports % (matching motion) and g% (reverse motion)
+Plug 'chrisbra/matchit'
+Plug 'tpope/vim-commentary'
+
+
+""" Settings
+set nu
+set relativenumber
+
+
+
+""" Mappings 
+let mapleader=" "
+
+" Idea vim bullshit. More here: https://gist.github.com/zchee/9c78f91cc5ad771c1f5d
+" Can also do :actionlist
+nmap <leader>r <Action>(RenameElement)
+nmap <leader>b <Action>(ToggleLineBreakpoint)
+nmap <leader>o <Action>(FileStructurePopup)
+nmap <leader>x <Action>(GotoNextError)
+nmap <leader>xx <Action>(CompilerErrorViewPopupMenu)
+nmap gi <Action>(GotoImplementation)
+nmap gu <Action>(FindUsages)
+nmap gy <Action>(ShowErrorDescription)
+
+
+" remove highlights from search
+nnoremap <leader><space> :nohlsearch<CR> 
+
+
+
