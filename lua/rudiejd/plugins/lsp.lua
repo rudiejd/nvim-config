@@ -11,8 +11,11 @@ return {
         end,
     },
     -- allows for navigation of decompiled dependencies in C#
+    -- {
+    --     'Hoffs/omnisharp-extended-lsp.nvim',
+    -- },
     {
-        'Hoffs/omnisharp-extended-lsp.nvim',
+        'Decodetalkers/csharpls-extended-lsp.nvim'
     },
     -- Autocompletion
     {
@@ -29,7 +32,8 @@ return {
             -- formatter config
             lsp_zero.on_attach(function(client, bufnr)
                 lsp_zero.default_keymaps({ buffer = bufnr })
-                lsp_zero.buffer_autoformat()
+                -- commenting this out for better performance
+                -- lsp_zero.buffer_autoformat()
             end)
 
 
@@ -88,21 +92,19 @@ return {
                             end
                         end
                     end,
+                    ['<C-Space>'] = function()
+                        cmp.complete()
+                    end
                 },
-                sources = {
-                    {
-                        name = 'buffer',
-                        option = {
-                            keyword_length = 1
-                        }
-                    },
-                    {
-                        name = 'nvim_lsp',
-                        option = {
-                            keyword_length = 6,
-                            group_index = 1,
-                            max_item_count = 30
-                        }
+                sorting = {
+                    priority_weight = 1.0,
+                    comparators = {
+                        cmp.config.compare.locality,
+                        cmp.config.compare.recently_used,
+                        cmp.config.compare.score,
+                        cmp.config.compare.offset,
+                        cmp.config.compare.order,
+                        cmp.config.compare.kind
                     }
                 }
             })
@@ -116,7 +118,7 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             { 'hrsh7th/cmp-nvim-lsp' },
-            { 'j-hui/fidget.nvim',   tag = 'legacy', opts = {} },
+            { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
             { 'folke/neodev.nvim' },
             { 'ray-x/lsp_signature.nvim' }
         },
@@ -132,37 +134,53 @@ return {
             end)
 
 
+            local lspconfig = require('lspconfig')
             -- (Optional) Configure lua language server for neovim
             local lua_opts = lsp_zero.nvim_lua_ls()
-            require('lspconfig').lua_ls.setup(lua_opts)
+            lspconfig.lua_ls.setup(lua_opts)
             require('lspconfig').rust_analyzer.setup({})
-            require('lspconfig').omnisharp.setup({
-                handlers = {
-                    ["textDocument/definition"] = require('omnisharp_extended').handler,
-                    ["textDocument/publishDiagnostic"] = vim.lsp.with(
-                        vim.lsp.diagnostic.on_publish_diagnostics, {
-                            underline = true,
-                            update_in_insert = true,
-                            signs = true,
-                            virtual_text = false,
-                        }
-                    )
-                },
-                cmd = { "omnisharp" }
-            })
-
-           local util = require('lspconfig').util
-            -- require('lspconfig').csharp_ls.setup({
-            --    root_dir = function(fname)
-            --       local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
-            --       for _, pattern in ipairs(root_patterns) do
-            --         local found = util.root_pattern(pattern)(fname)
-            --         if found then
-            --           return found
-            --         end
-            --       end
-            --     end,
+            -- lspconfig.omnisharp.setup({
+            --     handlers = {
+            --         ["textDocument/definition"] = require('omnisharp_extended').handler,
+            --         ["textDocument/publishDiagnostic"] = vim.lsp.with(
+            --             vim.lsp.diagnostic.on_publish_diagnostics, {
+            --                 underline = true,
+            --                 update_in_insert = true,
+            --                 signs = true,
+            --                 virtual_text = false,
+            --             }
+            --         )
+            --     },
+            --     cmd = { "omnisharp" }
             -- })
+
+            local util = lspconfig.util
+            lspconfig.csharp_ls.setup({
+                root_dir = function(fname)
+                   local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
+                   for _, pattern in ipairs(root_patterns) do
+                     local found = util.root_pattern(pattern)(fname)
+                     if found then
+                       return found
+                     end
+                   end
+                 end,
+                 handlers = {
+                     ["textDocument/definition"] = require('csharpls_extended').handler,
+                     ["textDocument/typeDefinition"] = require('csharpls_extended').handler
+                 }
+             })
+
+            -- python
+            lspconfig.pyright.setup({})
+
+            -- f#
+            lspconfig.fsautocomplete.setup({})
+
+            -- C++
+            lspconfig.clangd.setup({})
+
+            -- signature help when entering a function
             require('lsp_signature').setup({})
         end
     },

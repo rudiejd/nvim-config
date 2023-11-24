@@ -15,3 +15,18 @@ if vim.fn.has('wsl') == 1 then
         end,
     })
 end
+
+
+-- toggle line break and word wrap
+-- (l)ine (b)reak
+vim.keymap.set('n', '<leader>lb', function ()
+    if vim.o.linebreak then
+        vim.o.linebreak = false
+        vim.o.wrap = false
+    else
+        vim.o.linebreak = true
+        vim.o.wrap = true
+    end
+end)
+
+vim.keymap.set("i", "jj", "<Esc>")

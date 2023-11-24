@@ -3,7 +3,6 @@ return {
         "nvim-neotest/neotest",
         event = "VeryLazy",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
             "nvim-lua/plenary.nvim",
             "nvim-neotest/neotest-python",
             "nvim-neotest/neotest-plenary",
@@ -16,7 +15,6 @@ return {
     {
         "Issafalcon/neotest-dotnet",
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
             "nvim-neotest/neotest",
         },
         config = function ()
