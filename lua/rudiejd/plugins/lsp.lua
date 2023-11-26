@@ -29,12 +29,7 @@ return {
         config = function()
             local lsp_zero = require('lsp-zero')
 
-            -- formatter config
-            lsp_zero.on_attach(function(client, bufnr)
-                lsp_zero.default_keymaps({ buffer = bufnr })
-                -- commenting this out for better performance
-                -- lsp_zero.buffer_autoformat()
-            end)
+
 
 
             -- autocomplete config
@@ -50,20 +45,20 @@ return {
 
             local lspkind = require('lspkind')
             cmp.setup({
-                formatting = { 
+                formatting = {
                     format = lspkind.cmp_format({
-                          mode = 'symbol_text', -- show only symbol annotations
-                          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-                          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                        mode = 'symbol_text',  -- show only symbol annotations
+                        maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+                        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
-                          -- The function below will be called before any actual modifications from lspkind
-                          -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-                          -- before = function (entry, vim_item)
-                          --   ...
-                          --   return vim_item
-                          -- end
-                        })
-                }, 
+                        -- The function below will be called before any actual modifications from lspkind
+                        -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+                        -- before = function (entry, vim_item)
+                        --   ...
+                        --   return vim_item
+                        -- end
+                    })
+                },
                 mapping = {
 
                     -- i like enter better than ctrl - space for accepting completion
@@ -126,12 +121,33 @@ return {
             -- This is where all the LSP shenanigans will live
             local lsp_zero = require('lsp-zero')
             lsp_zero.extend_lspconfig()
-
+            -- formatter config
             lsp_zero.on_attach(function(client, bufnr)
-                -- see :help lsp-zero-keybindings
-                -- to learn the available actions
+
                 lsp_zero.default_keymaps({ buffer = bufnr })
+                --- toggle inlay hints
+                vim.g.inlay_hints_visible = false
+                local function toggle_inlay_hints()
+                    if vim.g.inlay_hints_visible then
+                        vim.g.inlay_hints_visible = false
+                        vim.lsp.inlay_hint(bufnr, false)
+                    else
+                        if client.server_capabilities.inlayHintProvider then
+                            vim.g.inlay_hints_visible = true
+                            vim.lsp.inlay_hint(bufnr, true)
+                        else
+                            print("no inlay hints available")
+                        end
+                    end
+                end
+
+                vim.keymap.set("n", "gh", toggle_inlay_hints)
+                -- inlay hints
+
+                -- commenting this out for better performance
+                -- lsp_zero.buffer_autoformat()
             end)
+
 
 
             local lspconfig = require('lspconfig')
@@ -157,19 +173,19 @@ return {
             local util = lspconfig.util
             lspconfig.csharp_ls.setup({
                 root_dir = function(fname)
-                   local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
-                   for _, pattern in ipairs(root_patterns) do
-                     local found = util.root_pattern(pattern)(fname)
-                     if found then
-                       return found
-                     end
-                   end
-                 end,
-                 handlers = {
-                     ["textDocument/definition"] = require('csharpls_extended').handler,
-                     ["textDocument/typeDefinition"] = require('csharpls_extended').handler
-                 }
-             })
+                    local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
+                    for _, pattern in ipairs(root_patterns) do
+                        local found = util.root_pattern(pattern)(fname)
+                        if found then
+                            return found
+                        end
+                    end
+                end,
+                handlers = {
+                    ["textDocument/definition"] = require('csharpls_extended').handler,
+                    ["textDocument/typeDefinition"] = require('csharpls_extended').handler
+                }
+            })
 
             -- python
             lspconfig.pyright.setup({})
