@@ -115,7 +115,6 @@ return {
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
             { 'folke/neodev.nvim' },
-            { 'ray-x/lsp_signature.nvim' }
         },
         config = function()
             -- This is where all the LSP shenanigans will live
@@ -141,7 +140,7 @@ return {
                     end
                 end
 
-                vim.keymap.set("n", "gh", toggle_inlay_hints)
+                vim.keymap.set("n", "<leader>ih", toggle_inlay_hints)
                 -- inlay hints
 
                 -- commenting this out for better performance
@@ -195,9 +194,6 @@ return {
 
             -- C++
             lspconfig.clangd.setup({})
-
-            -- signature help when entering a function
-            require('lsp_signature').setup({})
         end
     },
 }
