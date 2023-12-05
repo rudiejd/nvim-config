@@ -197,6 +197,9 @@ return {
 
             -- ocaml
             lspconfig.ocamllsp.setup({})
+
+            -- JS/TS
+            lspconfig.tsserver.setup({})
         end
     },
 }
