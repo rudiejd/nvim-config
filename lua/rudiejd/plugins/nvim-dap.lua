@@ -6,7 +6,7 @@ return {
 
             dap.adapters.netcoredbg = {
                 type = 'executable',
-                command = '/usr/bin/netcoredbg',
+                command = 'netcoredbg',
                 args = { '--interpreter=vscode' }
             }
 

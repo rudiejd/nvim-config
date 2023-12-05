@@ -189,11 +189,14 @@ return {
             -- python
             lspconfig.pyright.setup({})
 
-            -- f#
-            lspconfig.fsautocomplete.setup({})
+            -- -- f# (replaced with ionide)
+            -- lspconfig.fsautocomplete.setup({})
 
             -- C++
             lspconfig.clangd.setup({})
+
+            -- ocaml
+            lspconfig.ocamllsp.setup({})
         end
     },
 }
