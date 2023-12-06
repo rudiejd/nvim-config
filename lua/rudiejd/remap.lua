@@ -29,7 +29,9 @@ vim.keymap.set('n', '<leader>lb', function ()
     end
 end)
 
-vim.keymap.set("i", "jj", "<Esc>")
+-- idk i think this might be better than jj 
+-- since it's the same in visual and insert :)
+vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
