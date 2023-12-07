@@ -225,6 +225,15 @@ return {
 
             -- python
             lspconfig.pyright.setup({})
+            lspconfig.pyright.before_init = function(params, config)
+                local Path = require "plenary.path"
+                local venv = Path:new((config.root_dir:gsub("/", Path.path.sep)), ".venv")
+                if venv:joinpath("bin"):is_dir() then
+                    config.settings.python.pythonPath = tostring(venv:joinpath("bin", "python"))
+                else
+                    config.settings.python.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+                end
+            end
 
             -- -- f# (replaced with ionide)
             -- lspconfig.fsautocomplete.setup({})
@@ -237,6 +246,16 @@ return {
 
             -- JS/TS
             lspconfig.tsserver.setup({})
+
+            lspconfig.eslint.setup({
+                -- not sure if I like this, but it was the default on the server configurations
+                on_attach = function(client, bufnr)
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        buffer = bufnr,
+                        command = "EslintFixAll",
+                    })
+                end,
+            })
 
             -- SQLs 
             lspconfig.sqlls.setup({})
