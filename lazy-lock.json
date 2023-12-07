@@ -4,7 +4,10 @@
   "Ionide-vim": { "branch": "master", "commit": "8435bae84b26b602dbb68399661b3989915cc4d3" },
   "LuaSnip": { "branch": "master", "commit": "df58ee1664cfda71479cd2bbd56114f56599eba6" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },
+  "cmp-dap": { "branch": "master", "commit": "d16f14a210cd28988b97ca8339d504533b7e09a4" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "44b16d11215dce86f253ce0c30949813c0a90765" },
+  "copilot-cmp": { "branch": "master", "commit": "72fbaa03695779f8349be3ac54fa8bd77eed3ee3" },
+  "copilot.lua": { "branch": "master", "commit": "38a41d0d78f8823cc144c99784528b9a68bdd608" },
   "csharpls-extended-lsp.nvim": { "branch": "master", "commit": "865ace7f8f4069b4965e86005392dc78eec0858f" },
   "fidget.nvim": { "branch": "main", "commit": "0ba1e16d07627532b6cae915cc992ecac249fb97" },
   "fzf-lua": { "branch": "main", "commit": "08a63827636b3169d60d14e458c98e758a77e937" },
@@ -15,7 +18,7 @@
   "lsp-zero.nvim": { "branch": "v3.x", "commit": "8a9ee4e11a3e23101d1d1d11aaac3159ad925cc9" },
   "lspkind.nvim": { "branch": "master", "commit": "57610d5ab560c073c465d6faf0c19f200cb67e6e" },
   "lualine.nvim": { "branch": "master", "commit": "2248ef254d0a1488a72041cfb45ca9caada6d994" },
-  "mason-lspconfig.nvim": { "branch": "main", "commit": "9453e3d6cd2ca45d96e20f343e8f1b927364b630" },
+  "mason-lspconfig.nvim": { "branch": "main", "commit": "f522b5439bedac0225daf8d2fedb5039b59e83ee" },
   "mason.nvim": { "branch": "main", "commit": "41e75af1f578e55ba050c863587cffde3556ffa6" },
   "neodev.nvim": { "branch": "main", "commit": "f972d7e6cd21b691199565cfe3e6487e774a4e8f" },
   "neotest": { "branch": "master", "commit": "d424d262d01bccc1e0b038c9a7220a755afd2a1f" },
@@ -38,6 +41,7 @@
   "telescope.nvim": { "branch": "master", "commit": "54930e1abfc94409e1bb9266e752ef8379008592" },
   "tokyonight.nvim": { "branch": "main", "commit": "f247ee700b569ed43f39320413a13ba9b0aef0db" },
   "trouble.nvim": { "branch": "main", "commit": "f1168feada93c0154ede4d1fe9183bf69bac54ea" },
+  "undoquit.vim": { "branch": "main", "commit": "720bd9177c3f0349adbcc9ab907526592b0cad93" },
   "vim-fubitive": { "branch": "master", "commit": "c85ca8fa2098aa05e816f5d0839a0dad6bfcca5a" },
   "vim-fugitive": { "branch": "master", "commit": "46eaf8918b347906789df296143117774e827616" }
 }

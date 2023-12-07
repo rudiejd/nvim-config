@@ -18,20 +18,18 @@ return {
         'Decodetalkers/csharpls-extended-lsp.nvim'
     },
     -- Autocompletion
+    -- TODO break out into dedicated CMP file
     {
         'hrsh7th/nvim-cmp',
         event = 'InsertEnter',
         dependencies = {
             { 'L3MON4D3/LuaSnip' },
             { 'onsails/lspkind.nvim' },
-            { 'hrsh7th/cmp-buffer' }
+            { 'hrsh7th/cmp-buffer' },
+            { 'rcarriga/cmp-dap' },
         },
         config = function()
             local lsp_zero = require('lsp-zero')
-
-
-
-
             -- autocomplete config
             lsp_zero.extend_cmp()
 
@@ -44,12 +42,19 @@ return {
             end
 
             local lspkind = require('lspkind')
+            lspkind.init({
+            })
+
+            vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
             cmp.setup({
                 formatting = {
                     format = lspkind.cmp_format({
                         mode = 'symbol_text',  -- show only symbol annotations
                         maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                         ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+                        symbol_map = {
+                            Copilot = "",
+                        },
 
                         -- The function below will be called before any actual modifications from lspkind
                         -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
@@ -101,7 +106,25 @@ return {
                         cmp.config.compare.order,
                         cmp.config.compare.kind
                     }
+                },
+                enabled = function()
+                    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+                        or require("cmp_dap").is_dap_buffer()
+                end,
+                sources = {
+                    -- Copilot Source
+                    { name = "copilot",  group_index = 2 },
+                    -- Other Sources
+                    { name = "nvim_lsp", group_index = 2 },
+                    { name = "path",     group_index = 2 },
+                    { name = "luasnip",  group_index = 2 },
                 }
+            })
+
+            cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+                sources = {
+                    { name = "dap" },
+                },
             })
         end
     },
@@ -113,7 +136,7 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             { 'hrsh7th/cmp-nvim-lsp' },
-            { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+            { 'j-hui/fidget.nvim',   tag = 'legacy', opts = {} },
             { 'folke/neodev.nvim' },
         },
         config = function()
@@ -122,7 +145,6 @@ return {
             lsp_zero.extend_lspconfig()
             -- formatter config
             lsp_zero.on_attach(function(client, bufnr)
-
                 lsp_zero.default_keymaps({ buffer = bufnr })
                 --- toggle inlay hints
                 vim.g.inlay_hints_visible = false
