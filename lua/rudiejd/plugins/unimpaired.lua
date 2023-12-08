@@ -1,3 +1,6 @@
 return {
-    "tummetott/unimpaired.vim"
+    "tummetott/unimpaired.nvim",
+    config = function ()
+        require("unimpaired").setup()
+    end
 }

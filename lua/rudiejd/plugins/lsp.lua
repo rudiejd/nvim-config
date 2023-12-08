@@ -207,6 +207,7 @@ return {
                 end,
                 handlers = {
                     ["textDocument/definition"] = require('csharpls_extended').handler,
+                    ["textDocument/implementation"] = require('csharpls_extended').handler,
                     ["textDocument/typeDefinition"] = require('csharpls_extended').handler
                 }
             })
