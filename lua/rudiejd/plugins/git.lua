@@ -1,9 +1,12 @@
 return {
     { "tpope/vim-fugitive" },
+    { "tpope/vim-rhubarb" },
     {
         "tommcdo/vim-fubitive",
-        config = function ()
+        config = function()
             vim.g.fubitive_domain_pattern = "bitbucket.build.dkinternal.com"
+            -- gl -> git link
+            vim.keymap.set("n", "<leader>gl", ":.GBrowse!<CR>")
         end
     },
     {
