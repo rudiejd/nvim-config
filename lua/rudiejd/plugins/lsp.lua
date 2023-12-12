@@ -229,6 +229,9 @@ return {
 
             -- JS/TS
             lspconfig.tsserver.setup({})
+
+            -- SQLs 
+            lspconfig.sqlls.setup({})
         end
     },
 }

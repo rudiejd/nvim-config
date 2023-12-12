@@ -9,5 +9,13 @@ return {
         vim.keymap.set('n', '<leader>ps', builtin.live_grep, {})
         vim.keymap.set('n', '<Leader>pr', builtin.lsp_references, {})
         vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
+
+        require('telescope').setup({
+            defaults = {
+                preview = {
+                    treesitter = false
+                }
+            }
+        })
     end
 }
