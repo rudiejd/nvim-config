@@ -66,13 +66,8 @@ return {
                 },
                 mapping = {
 
-                    -- i like enter better than ctrl - space for accepting completion
-                    ['<CR>'] = cmp.mapping.confirm {
-                        behavior = cmp.ConfirmBehavior.Insert,
-                        select = true,
-                    },
-
                     -- supertab like configuration from https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#super-tab-like-mapping
+                    -- using this with luasnip
                     ['<Tab>'] = function(fallback)
                         if not cmp.select_next_item() then
                             if vim.bo.buftype ~= 'prompt' and has_words_before() then
@@ -92,9 +87,17 @@ return {
                             end
                         end
                     end,
+
+                    -- force a completion
                     ['<C-Space>'] = function()
                         cmp.complete()
-                    end
+                    end,
+
+                    -- early confirm a completion 
+                    ['<C-y>'] = cmp.mapping.confirm {
+                        select = true
+                    }
+                --
                 },
                 sorting = {
                     priority_weight = 1.0,

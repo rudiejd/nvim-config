@@ -40,3 +40,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+
+-- print the first 100 negative fibonacci numbers using dynamic proramming
