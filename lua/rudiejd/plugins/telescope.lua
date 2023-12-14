@@ -10,6 +10,15 @@ return {
         vim.keymap.set('n', '<Leader>pr', builtin.lsp_references, {})
         vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 
+
+        local function send_current_buffer_to_qflist()
+            local actions = require('telescope.actions')
+            local current_bufnr = vim.api.nvim_get_current_buf()
+            actions.send_to_qflist({prompt_bufnr = current_bufnr})
+        end
+
+        vim.keymap.set('n', '<C-q>', send_current_buffer_to_qflist, {})
+
         require('telescope').setup({
             defaults = {
                 preview = {

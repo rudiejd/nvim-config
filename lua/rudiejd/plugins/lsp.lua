@@ -168,8 +168,16 @@ return {
                     end
                 end
 
-                vim.keymap.set("n", "<leader>ih", toggle_inlay_hints)
                 -- inlay hints
+                vim.keymap.set("n", "<leader>ih", toggle_inlay_hints)
+
+                -- run the edit command after the lsp is intiialized for semantic higlighting
+                -- this didn't work :( 
+                -- if client.name == "csharp-ls" then
+                --     print(vim.inspect(client))
+                --     vim.cmd("e!")
+                -- end
+
 
                 -- commenting this out for better performance
                 -- lsp_zero.buffer_autoformat()
@@ -232,6 +240,10 @@ return {
 
             -- SQLs 
             lspconfig.sqlls.setup({})
+
+            -- Docker
+            lspconfig.dockerls.setup({})
+            lspconfig.docker_compose_language_service.setup({})
         end
     },
 }
