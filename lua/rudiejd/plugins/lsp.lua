@@ -24,6 +24,7 @@ return {
         event = 'InsertEnter',
         dependencies = {
             { 'L3MON4D3/LuaSnip' },
+            { 'saadparwaiz1/cmp_luasnip' },
             { 'onsails/lspkind.nvim' },
             { 'hrsh7th/cmp-buffer' },
             { 'rcarriga/cmp-dap' },
@@ -46,6 +47,8 @@ return {
             })
 
             vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
+
+            local luasnip = require('luasnip')
             cmp.setup({
                 formatting = {
                     format = lspkind.cmp_format({
@@ -68,36 +71,40 @@ return {
 
                     -- supertab like configuration from https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#super-tab-like-mapping
                     -- using this with luasnip
-                    ['<Tab>'] = function(fallback)
-                        if not cmp.select_next_item() then
-                            if vim.bo.buftype ~= 'prompt' and has_words_before() then
-                                cmp.complete()
-                            else
-                                fallback()
-                            end
+                    ["<Tab>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_next_item()
+                            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+                            -- that way you will only jump inside the snippet region
+                        elseif luasnip.expand_or_jumpable() then
+                            luasnip.expand_or_jump()
+                        elseif has_words_before() then
+                            cmp.complete()
+                        else
+                            fallback()
                         end
-                    end,
+                    end, { "i", "s" }),
 
-                    ['<S-Tab>'] = function(fallback)
-                        if not cmp.select_prev_item() then
-                            if vim.bo.buftype ~= 'prompt' and has_words_before() then
-                                cmp.complete()
-                            else
-                                fallback()
-                            end
+                    ["<S-Tab>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.select_prev_item()
+                        elseif luasnip.jumpable(-1) then
+                            luasnip.jump(-1)
+                        else
+                            fallback()
                         end
-                    end,
+                    end, { "i", "s" }),
 
                     -- force a completion
                     ['<C-Space>'] = function()
                         cmp.complete()
                     end,
 
-                    -- early confirm a completion 
+                    -- early confirm a completion
                     ['<C-y>'] = cmp.mapping.confirm {
-                        select = true
+                        select = false
                     }
-                --
+                    --
                 },
                 sorting = {
                     priority_weight = 1.0,
@@ -115,15 +122,18 @@ return {
                         or require("cmp_dap").is_dap_buffer()
                 end,
                 sources = {
-                    -- Copilot Source
+                    { name = "luasnip",  group_index = 2 },
                     { name = "copilot",  group_index = 2 },
-                    -- Other Sources
                     { name = "nvim_lsp", group_index = 2 },
                     { name = "path",     group_index = 2 },
-                    { name = "luasnip",  group_index = 2 },
                 },
                 experimental = {
                     ghost_text = true
+                },
+                snippet = {
+                    expand = function (args)
+                       require('luasnip').lsp_expand(args.body)
+                    end
                 }
             })
 
@@ -172,7 +182,7 @@ return {
                 vim.keymap.set("n", "<leader>ih", toggle_inlay_hints)
 
                 -- run the edit command after the lsp is intiialized for semantic higlighting
-                -- this didn't work :( 
+                -- this didn't work :(
                 -- if client.name == "csharp-ls" then
                 --     print(vim.inspect(client))
                 --     vim.cmd("e!")
@@ -257,12 +267,15 @@ return {
                 end,
             })
 
-            -- SQLs 
+            -- SQLs
             lspconfig.sqlls.setup({})
 
             -- Docker
             lspconfig.dockerls.setup({})
             lspconfig.docker_compose_language_service.setup({})
+
+            -- Java
+            lspconfig.jdtls.setup({})
         end
     },
 }
