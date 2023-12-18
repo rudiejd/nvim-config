@@ -142,6 +142,10 @@ return {
 
             -- Java
             lspconfig.jdtls.setup({})
+
+            -- YAML 
+            lspconfig.yamlls.setup({})
+
         end
     },
 }

@@ -48,14 +48,13 @@ return {
             },
             mapping = {
                 -- supertab like configuration from https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#super-tab-like-mapping
-                -- i modified it to exampnd first, then complete if possible
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    if luasnip.expand_or_jumpable() then
-                        luasnip.expand_or_jump()
+                    if cmp.visible() then
+                        cmp.select_next_item()
                         -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
                         -- that way you will only jump inside the snippet region
-                    elseif cmp.visible then
-                        cmp.select_next_item()
+                    elseif luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
                     elseif has_words_before() then
                         cmp.complete()
                     else
