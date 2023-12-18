@@ -143,8 +143,14 @@ return {
             -- Java
             lspconfig.jdtls.setup({})
 
-            -- YAML 
-            lspconfig.yamlls.setup({})
+            -- YAML . I currenlty only use kuberneses YAML, so everything uses that schmea
+            lspconfig.yamlls.setup({
+                settings = {
+                    schemas = {
+                       ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.yaml",
+                    }
+                }
+            })
 
         end
     },

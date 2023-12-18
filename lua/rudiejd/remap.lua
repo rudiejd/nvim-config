@@ -6,6 +6,8 @@ vim.keymap.set("i", "<C-S>", function()
 end, { buffer = true })
 
 
+
+-- yank to windows clipboard
 vim.opt.clipboard = "unnamedplus"
 if vim.fn.has('wsl') == 1 then
     vim.api.nvim_create_autocmd('TextYankPost', {
@@ -33,5 +35,7 @@ end)
 -- since it's the same in visual and insert :)
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
+
+-- Center the window (zz) when scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
