@@ -55,6 +55,8 @@ return {
                 },
 
             })
+
+            vim.treesitter.language.register("starlark", "tiltfile")
         end
     },
     {

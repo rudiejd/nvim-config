@@ -152,6 +152,12 @@ return {
                 }
             })
 
+            -- Tilt files (https://tilt.dev)
+            lspconfig.tilt_ls.setup({})
+
+            -- bash
+            lspconfig.bashls.setup({})
+
         end
     },
 }
