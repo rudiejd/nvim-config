@@ -1,5 +1,6 @@
 return {
     {
+        -- do some crazy shit
         "zbirenbaum/copilot.lua",
         config = function()
             require('copilot').setup({
@@ -11,7 +12,7 @@ return {
                         jump_next = "]]",
                         accept = "<CR>",
                         refresh = "gr",
-                        open = "<M-CR>"
+                        open = "<M-A>"
                     },
                     layout = {
                         position = "bottom", -- | top | left | right

@@ -7,6 +7,7 @@ return {
         { 'onsails/lspkind.nvim' },
         { 'hrsh7th/cmp-buffer' },
         { 'rcarriga/cmp-dap' },
+        { 'zbirenbaum/copilot-cmp' },
     },
     config = function()
         local lsp_zero = require('lsp-zero')
@@ -35,7 +36,7 @@ return {
                     maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
                     ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
                     symbol_map = {
-                        Copilot = "∩äô",
+                        Copilot = "",
                     },
 
                     -- The function below will be called before any actual modifications from lspkind
@@ -99,8 +100,8 @@ return {
                     or require("cmp_dap").is_dap_buffer()
             end,
             sources = {
-                { name = "luasnip",  group_index = 2 },
                 { name = "copilot",  group_index = 2 },
+                { name = "luasnip",  group_index = 2 },
                 { name = "nvim_lsp", group_index = 2 },
                 { name = "path",     group_index = 2 },
             },
