@@ -18,5 +18,20 @@ require('lazy').setup(
       path = "~/git",
       patterns = {},
       fallback = false
-    }
+    },
+    ui = {
+      icons = {
+        cmd = "⌘",
+        config = "🛠",
+        event = "📅",
+        ft = "📂",
+        init = "⚙",
+        keys = "🗝",
+        plugin = "🔌",
+        runtime = "💻",
+        source = "📄",
+        start = "🚀",
+        task = "📌",
+      },
+    },
   })
