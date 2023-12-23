@@ -63,7 +63,7 @@ return {
                     end
                 end, { "i", "s" }),
 
-                ["<C-p>"] = cmp.mapping(function(fallback)
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_prev_item()
                     elseif luasnip.jumpable(-1) then
@@ -79,8 +79,8 @@ return {
                 end,
 
                 -- early confirm a completion
-                ['<C-y>'] = cmp.mapping.confirm {
-                    select = false
+                ['<CR>'] = cmp.mapping.confirm {
+                    select = true
                 }
                 --
             },
