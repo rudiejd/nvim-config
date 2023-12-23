@@ -11,5 +11,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup('rudiejd.plugins')
-
+require('lazy').setup(
+  {
+    root = 'rudiejd.plugins',
+    dev = {
+      path = "~/git",
+      patterns = {},
+      fallback = false
+    }
+  })

@@ -60,6 +60,7 @@ return {
             end)
 
 
+            require('neodev').setup({})
 
             local lspconfig = require('lspconfig')
             -- (Optional) Configure lua language server for neovim
@@ -96,7 +97,8 @@ return {
                     ["textDocument/definition"] = require('csharpls_extended').handler,
                     ["textDocument/implementation"] = require('csharpls_extended').handler,
                     ["textDocument/typeDefinition"] = require('csharpls_extended').handler
-                }
+                },
+                filetypes = { "cs" }
             })
 
             -- python
@@ -124,13 +126,17 @@ return {
             lspconfig.tsserver.setup({})
 
             lspconfig.eslint.setup({
-                -- not sure if I like this, but it was the default on the server configurations
+                -- not sure if I like this yet
                 on_attach = function(client, bufnr)
                     vim.api.nvim_create_autocmd("BufWritePre", {
                         buffer = bufnr,
                         command = "EslintFixAll",
                     })
                 end,
+                -- this isn't the default, but that one seemed slow
+                root_dir = util.find_git_ancestor,
+                filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue", "svelte", "astro" }
+
             })
 
             -- SQLs
@@ -148,7 +154,15 @@ return {
                 settings = {
                     schemas = {
                        ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.yaml",
-                    }
+                    },
+                    redhat = {
+                        telemetry = {
+                            enabled = false
+                        }
+                    },
+                    single_file_support = true,
+                    filetypes = { "yaml", "yaml.docker-compose" },
+                    root_dir = util.find_git_ancestor
                 }
             })
 
