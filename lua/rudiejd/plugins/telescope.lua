@@ -1,7 +1,7 @@
 return {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.3',
-    dependencies = { 'nvim-lua/plenary.nvim', 'benfowler/telescope-luasnip.nvim'},
+    dev = true,
+    dependencies = { 'nvim-lua/plenary.nvim', 'benfowler/telescope-luasnip.nvim' },
     config = function()
         local builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
@@ -9,12 +9,31 @@ return {
         vim.keymap.set('n', '<leader>ps', builtin.live_grep, {})
         vim.keymap.set('n', '<Leader>pr', builtin.lsp_references, {})
         vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
+        vim.keymap.set('n', '<leader>px', function()
+            return builtin.diagnostics({
+                line_width = "full",
+                previewer = require('telescope.previewers').new_buffer_previewer {
+                    title = "Diagnostics",
+                    dyn_title = function(_, entry)
+                        return entry.title
+                    end,
+
+                    get_buffer_by_name = function(_, entry)
+                        return "diagnostics_" .. tostring(entry.nr)
+                    end,
+
+                    define_preview = function(self, entry)
+                        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, { entry.text })
+                    end,
+                }
+            })
+        end, {})
 
 
         local function send_current_buffer_to_qflist()
             local actions = require('telescope.actions')
             local current_bufnr = vim.api.nvim_get_current_buf()
-            actions.send_to_qflist({prompt_bufnr = current_bufnr})
+            actions.send_to_qflist({ prompt_bufnr = current_bufnr })
         end
 
         vim.keymap.set('n', '<C-q>', send_current_buffer_to_qflist, {})
@@ -22,6 +41,7 @@ return {
         local telescope = require('telescope')
         telescope.setup({
             defaults = {
+
                 preview = {
                     treesitter = false
                 }
