@@ -7,18 +7,11 @@ return {
             "nvim-lua/plenary.nvim",
             "nvim-neotest/neotest-python",
             "nvim-neotest/neotest-plenary",
+            "Issafalcon/neotest-dotnet",
             "haydenmeade/neotest-jest",
             "antoinemadec/FixCursorHold.nvim",
         },
         config = function()
-        end,
-    },
-    {
-        "Issafalcon/neotest-dotnet",
-        dependencies = {
-            "nvim-neotest/neotest",
-        },
-        config = function ()
             local neotest = require("neotest")
             neotest.setup({
                 log_level = 1, -- For verbose logs
@@ -42,19 +35,21 @@ return {
                     child_indent = "",
                     final_child_prefix = "",
                     non_collapsible = "",
-                    collapsed = "",
+                    collapsed = "",
+
                     passed = "",
                     running = "",
                     failed = "",
-                    unknown = "",
-                    skipped = "",
+                    unknown = ""
                 },
+
             })
-            vim.keymap.set("n", "<leader>tr", function() neotest.run.run() end)
-            vim.keymap.set("n", "<leader>td", function() neotest.run.run({strategy = "dap"}) end)
-            vim.keymap.set("n", "<leader>ts", function() neotest.summary.open() end)
-            vim.keymap.set("n", "<leader>to", function() neotest.output.open() end)
-            vim.keymap.set("n", "<leader>tp", function() neotest.output_panel.open() end)
+            vim.keymap.set("n", "<leader>tr", function() neotest.run.run() end, { desc = "[T]est [R]un" })
+            vim.keymap.set("n", "<leader>td", function() neotest.run.run({ strategy = "dap" }) end,
+                { desc = "[T]est [D]ebug" })
+            vim.keymap.set("n", "<leader>ts", function() neotest.summary.open() end, { desc = "[T]est [S]ummary" })
+            vim.keymap.set("n", "<leader>to", function() neotest.output.open() end, { desc = "[T]est [O]utput" })
+            vim.keymap.set("n", "<leader>tp", function() neotest.output_panel.open() end, { desc = "[T]est [P]anel" })
         end
     }
 }

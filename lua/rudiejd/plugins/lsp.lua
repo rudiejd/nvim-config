@@ -27,7 +27,7 @@ return {
             lsp_zero.extend_lspconfig()
             -- formatter config
             lsp_zero.on_attach(function(client, bufnr)
-                lsp_zero.default_keymaps({ buffer = bufnr })
+                lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = false })
                 --- toggle inlay hints
                 vim.g.inlay_hints_visible = false
                 local function toggle_inlay_hints()
@@ -168,9 +168,9 @@ return {
 
             -- Tilt files (https://tilt.dev)
             lspconfig.tilt_ls.setup({})
-
             -- bash
             lspconfig.bashls.setup({})
+            lspconfig.neocmake.setup({})
 
         end
     },

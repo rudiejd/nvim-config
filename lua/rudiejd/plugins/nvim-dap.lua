@@ -21,33 +21,17 @@ return {
                 },
             }
             -- pneumonic debug continue
-            vim.keymap.set("n", "<leader>dc", function()
-                dap.continue()
-            end)
-            -- pneumonic debug step
-            vim.keymap.set("n", "<leader>ds", function()
-                dap.step_over()
-            end)
+            vim.keymap.set("n", "<leader>ds", dap.step_over, { desc = "[D]ebug [S]tep" })
             -- pneumonic debug into
-            vim.keymap.set("n", "<leader>di", function()
-                dap.step_into()
-            end)
+            vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "[D]ebug [I]nto" })
             -- pneumonic debug over
-            vim.keymap.set("n", "<leader>do", function()
-                dap.step_out()
-            end)
+            vim.keymap.set("n", "<leader>do", dap.step_out, { desc = "[D]ebug [O]ver" })
             -- pneumonic b - break
-            vim.keymap.set("n", "<Leader>b", function()
-                dap.toggle_breakpoint()
-            end)
+            vim.keymap.set("n", "<Leader>b", dap.toggle_breakpoint, { desc = "[D]ebug [B]reakpoint" })
             -- pneumoic dr - dap REPL
-            vim.keymap.set("n", "<Leader>dr", function()
-                dap.toggle_breakpoint()
-            end)
+            vim.keymap.set("n", "<Leader>dr", dap.toggle_breakpoint, { desc = "[D]ebug [R]EPL" })
             -- pneumoic dl - dap run last
-            vim.keymap.set("n", "<Leader>dl", function()
-                dap.run_last()
-            end)
+            vim.keymap.set("n", "<Leader>dl", dap.run_last, { desc = "[D]ebug [L]ast" })
         end
     },
     {

@@ -21,7 +21,7 @@ end
 
 -- toggle line break and word wrap
 -- (l)ine (b)reak
-vim.keymap.set('n', '<leader>lb', function ()
+vim.keymap.set('n', '<leader>lb', function()
     if vim.o.linebreak then
         vim.o.linebreak = false
         vim.o.wrap = false
@@ -31,13 +31,9 @@ vim.keymap.set('n', '<leader>lb', function ()
     end
 end)
 
--- idk i think this might be better than jj 
--- since it's the same in visual and insert :)
-vim.keymap.set("i", "<C-c>", "<Esc>")
-
 
 -- Center the window (zz) when scrolling
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Center the window when scrolling down" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Center the window when scrolling down" })
 
---
+vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "E[x]ception - open diagnostics in qfist" })

@@ -1,33 +1,34 @@
 return {
     'nvim-telescope/telescope.nvim',
     dev = true,
-    dependencies = { 'nvim-lua/plenary.nvim', 'benfowler/telescope-luasnip.nvim' },
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+        {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build = "make",
+            cond = function()
+                return vim.fn.executable("make") == 1
+            end
+        },
+        "benfowler/telescope-luasnip.nvim"
+    },
     config = function()
+        require("telescope").load_extension('luasnip')
+        require("telescope").load_extension('projects')
+
         local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-        vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-        vim.keymap.set('n', '<leader>ps', builtin.live_grep, {})
-        vim.keymap.set('n', '<Leader>pr', builtin.lsp_references, {})
-        vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
-        vim.keymap.set('n', '<leader>px', function()
-            return builtin.diagnostics({
-                line_width = "full",
-                previewer = require('telescope.previewers').new_buffer_previewer {
-                    title = "Diagnostics",
-                    dyn_title = function(_, entry)
-                        return entry.title
-                    end,
+        local telescope = require('telescope')
 
-                    get_buffer_by_name = function(_, entry)
-                        return "diagnostics_" .. tostring(entry.nr)
-                    end,
-
-                    define_preview = function(self, entry)
-                        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, { entry.text })
-                    end,
-                }
-            })
-        end, {})
+        vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = "[S]earch [F]iles" })
+        vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = "[S]earch [P]roject" })
+        vim.keymap.set('n', '<leader>st', builtin.live_grep, { desc = "[S]earch [T]ext" })
+        vim.keymap.set('n', '<Leader>sr', builtin.lsp_references, { desc = "[S]earch [R]eferences" })
+        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = "[S]earch [H]elp" })
+        vim.keymap.set('n', '<leader>sx', builtin.diagnostics, { desc = "[S]earch E[x]ceptions" })
+        vim.keymap.set('n', '<leader>ss', telescope.extensions.luasnip.luasnip,
+            { desc = "[S]earch [S]nippets" })
+        vim.keymap.set('n', '<leader>sk', builtin.keymaps,
+            { desc = "[S]earch [K]eymaps" })
 
 
         local function send_current_buffer_to_qflist()
@@ -38,18 +39,12 @@ return {
 
         vim.keymap.set('n', '<C-q>', send_current_buffer_to_qflist, {})
 
-        local telescope = require('telescope')
         telescope.setup({
             defaults = {
-
                 preview = {
                     treesitter = false
                 }
             }
         })
-
-        telescope.load_extension('luasnip')
-
-        telescope.load_extension('projects')
     end
 }
