@@ -1,12 +1,15 @@
 return {
-    { "tpope/vim-fugitive" },
+    {
+        "tpope/vim-fugitive",
+        config = function()
+            vim.keymap.set("n", "<leader>gl", ":.GBrowse!<CR>", { desc = "[G]it [B]rowse" })
+        end
+    },
     { "tpope/vim-rhubarb" },
     {
         "tommcdo/vim-fubitive",
         config = function()
             vim.g.fubitive_domain_pattern = "bitbucket.build.dkinternal.com"
-            -- gl -> git link
-            vim.keymap.set("n", "<leader>gl", ":.GBrowse!<CR>")
         end
     },
     {
@@ -22,8 +25,8 @@ return {
                 changedelete = { text = '~' },
             },
             on_attach = function(bufnr)
-                vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk,
-                    { buffer = bufnr, desc = 'Preview git hunk' })
+                vim.keymap.set('n', '<leader>gp', require('gitsigns').preview_hunk,
+                    { buffer = bufnr, desc = '[G]it [P]review' })
 
                 -- don't override the built-in and fugitive keymaps
                 local gs = package.loaded.gitsigns
