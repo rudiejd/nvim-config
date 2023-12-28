@@ -29,6 +29,10 @@ return {
             { desc = "[S]earch [S]nippets" })
         vim.keymap.set('n', '<leader>sk', builtin.keymaps,
             { desc = "[S]earch [K]eymaps" })
+        vim.keymap.set('n', '<leader>sa', function ()
+            builtin.builtin({include_extensions = true})
+        end,
+            { desc = "[S]earch [A]ll (pickers)" })
 
 
         local function send_current_buffer_to_qflist()
