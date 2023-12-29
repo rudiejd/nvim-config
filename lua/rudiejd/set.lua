@@ -26,7 +26,10 @@ vim.o.smartcase = true
 
 -- Decrease update time
 vim.o.updatetime = 250
-vim.o.timeoutlen = 300
+
+-- time to wait for a mapped sequence to complete
+vim.o.timeoutlen = 100
+vim.o.ttimeoutlen = 100
 
 
 -- [[ Highlight on yank ]]
