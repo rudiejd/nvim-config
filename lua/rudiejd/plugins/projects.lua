@@ -1,10 +1,10 @@
 return {
     "ahmedkhalf/project.nvim",
-    opts = {
-        detection_methods = {"pattern"},
-        patterns = { ".git" }
-    },
-    config =function ()
-        require('project_nvim').setup({})
+    config = function()
+        local opts = {
+            detection_methods = { "pattern" },
+            patterns = { ".git" }
+        }
+        require('project_nvim').setup(opts)
     end
 }

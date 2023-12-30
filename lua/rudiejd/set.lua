@@ -79,3 +79,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --
 -- todo - figure out how to make this lua
 vim.cmd("autocmd BufRead Tiltfile setf=tiltfile")
+
+
+vim.api.nvim_create_autocmd('CmdwinEnter', {
+  pattern = '[:>]',
+  desc = 'If the treesitter vim parser is installed, set the syntax again to get highlighting in the command window',
+  group = vim.api.nvim_create_augroup('nvim_cmdwin_syntax', {}),
+  callback = function ()
+    local is_loadable, _ = pcall(vim.treesitter.language.add, 'vim')
+    if is_loadable then
+      vim.cmd('set syntax=vim')
+    end
+  end
+})
