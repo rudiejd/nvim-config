@@ -78,8 +78,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- })
 --
 -- todo - figure out how to make this lua
-vim.cmd("autocmd BufRead Tiltfile setf=tiltfile")
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "Tiltfile,tiltfile",
+  desc = "Set filetype to tiltfile",
+  group = vim.api.nvim_create_augroup('ftdetect_tiltfile', {}),
+  callback = function ()
+    vim.cmd('set filetype=tiltfile')
+  end
+})
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "docker-compose*.yml",
+  desc = "Set filetype to docker compose",
+  group = vim.api.nvim_create_augroup('ftdetect_dockercompose', {}),
+  callback = function ()
+    vim.cmd('set filetype=yaml.docker-compose')
+  end
+})
 
 vim.api.nvim_create_autocmd('CmdwinEnter', {
   pattern = '[:>]',
