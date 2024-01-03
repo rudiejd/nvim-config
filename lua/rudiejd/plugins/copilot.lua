@@ -1,6 +1,5 @@
 return {
     {
-        -- do some crazy shit
         "zbirenbaum/copilot.lua",
         config = function()
             require('copilot').setup({
@@ -46,13 +45,17 @@ return {
                 copilot_node_command = 'node', -- Node.js version must be > 18.x
                 server_opts_overrides = {},
             })
-        end
+        end,
+        cond = function ()
+            -- only on my work user
+            return os.getenv("USER") ~= "jd"
+        end,
     },
     {
         "zbirenbaum/copilot-cmp",
         config = function()
             require("copilot_cmp").setup()
-            -- find all the primes from 1 to 1000
         end
     }
 }
+
