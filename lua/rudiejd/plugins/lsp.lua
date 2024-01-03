@@ -170,7 +170,12 @@ return {
             lspconfig.tilt_ls.setup({})
             -- bash
             lspconfig.bashls.setup({})
+
+            -- cmake
             lspconfig.neocmake.setup({})
+
+            -- Go
+            lspconfig.gopls.setup({})
 
         end
     },
