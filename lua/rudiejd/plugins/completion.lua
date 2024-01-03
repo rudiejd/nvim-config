@@ -82,11 +82,9 @@ return {
                     cmp.complete()
                 end,
 
-                -- early confirm a completion
                 ['<CR>'] = cmp.mapping.confirm {
                     select = true
                 }
-                --
             },
             sorting = {
                 priority_weight = 1.0,
