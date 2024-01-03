@@ -23,6 +23,7 @@ return {
         vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = "[S]earch [P]roject" })
         vim.keymap.set('n', '<leader>st', builtin.live_grep, { desc = "[S]earch [T]ext" })
         vim.keymap.set('n', '<Leader>sr', builtin.lsp_references, { desc = "[S]earch [R]eferences" })
+        vim.keymap.set('n', '<Leader>sR', builtin.resume, { desc = "[S]earch [R]esume" })
         vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = "[S]earch [H]elp" })
         vim.keymap.set('n', '<leader>sx', builtin.diagnostics, { desc = "[S]earch E[x]ceptions" })
         vim.keymap.set('n', '<leader>ss', telescope.extensions.luasnip.luasnip,
