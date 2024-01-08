@@ -1,3 +1,4 @@
+local util = require("rudiejd.util")
 return {
     {
         "mfussenegger/nvim-dap",
@@ -54,6 +55,15 @@ return {
             }
 
             dap.configurations.cs = {
+                {
+                    type = "netcoredbg",
+                    name = "Endpoint DLLs",
+                    request = "launch",
+                    program = function()
+                        print(vim.inspect(util.find_endpoint_dlls()))
+                        return util.find_endpoint_dlls()[1]
+                    end
+                },
                 {
                     type = "netcoredbg",
                     name = "launch - netcoredbg",
@@ -167,5 +177,5 @@ return {
             end
             vim.fn.sign_define('DapBreakpoint', { text = '•', texthl = 'red', linehl = '', numhl = '' })
         end
-    }
+    },
 }

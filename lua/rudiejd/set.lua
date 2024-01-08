@@ -82,7 +82,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "Tiltfile,tiltfile",
   desc = "Set filetype to tiltfile",
   group = vim.api.nvim_create_augroup('ftdetect_tiltfile', {}),
-  callback = function ()
+  callback = function()
     vim.cmd('set filetype=tiltfile')
   end
 })
@@ -91,7 +91,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "docker-compose*.yml",
   desc = "Set filetype to docker compose",
   group = vim.api.nvim_create_augroup('ftdetect_dockercompose', {}),
-  callback = function ()
+  callback = function()
     vim.cmd('set filetype=yaml.docker-compose')
   end
 })
@@ -100,10 +100,39 @@ vim.api.nvim_create_autocmd('CmdwinEnter', {
   pattern = '[:>]',
   desc = 'If the treesitter vim parser is installed, set the syntax again to get highlighting in the command window',
   group = vim.api.nvim_create_augroup('nvim_cmdwin_syntax', {}),
-  callback = function ()
+  callback = function()
     local is_loadable, _ = pcall(vim.treesitter.language.add, 'vim')
     if is_loadable then
       vim.cmd('set syntax=vim')
+    end
+  end
+})
+
+vim.api.nvim_create_autocmd('BufWinLeave', {
+  pattern = '*',
+  desc = 'Detach the csharp_ls when the buffer is hidden for better performance',
+  group = vim.api.nvim_create_augroup('csharp_ls_unattach', {}),
+  callback = function(ev)
+    local bufnr = ev.buf
+    for _, client in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+      if client.name == "csharp_ls" then
+        vim.lsp.buf_detach_client(bufnr, client.id)
+      end
+    end
+  end
+})
+
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  pattern = '*',
+  desc = 'Attach the csharp_ls when we enter a buffer, since we kill it when a buffer is hidden',
+  group = vim.api.nvim_create_augroup('csharp_ls_reattach', {}),
+  callback = function(ev)
+    local bufnr = ev.buf
+
+    for _, client in pairs(vim.lsp.get_clients()) do
+      if client.name == "csharp_ls" then
+        vim.lsp.buf_attach_client(bufnr, client.id)
+      end
     end
   end
 })

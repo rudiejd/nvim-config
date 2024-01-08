@@ -17,9 +17,10 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             { 'hrsh7th/cmp-nvim-lsp' },
-            { 'j-hui/fidget.nvim',   tag = 'legacy', opts = {} },
+            { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
             { 'folke/neodev.nvim' },
             { 'Decodetalkers/csharpls-extended-lsp.nvim' },
+            { 'jmederosalvarado/roslyn.nvim' }
         },
         config = function()
             -- This is where all the LSP shenanigans will live
@@ -98,7 +99,8 @@ return {
                     ["textDocument/implementation"] = require('csharpls_extended').handler,
                     ["textDocument/typeDefinition"] = require('csharpls_extended').handler
                 },
-                filetypes = { "cs" }
+                -- hack to make it attach on BufEnter
+                filetypes = {},
             })
 
             -- python
@@ -153,7 +155,8 @@ return {
             lspconfig.yamlls.setup({
                 settings = {
                     schemas = {
-                       ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.yaml",
+                        ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
+                        "/*.yaml",
                     },
                     redhat = {
                         telemetry = {
@@ -176,7 +179,6 @@ return {
 
             -- Go
             lspconfig.gopls.setup({})
-
         end
     },
 }
