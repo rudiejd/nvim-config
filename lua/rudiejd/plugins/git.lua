@@ -27,6 +27,10 @@ return {
             on_attach = function(bufnr)
                 vim.keymap.set('n', '<leader>gp', require('gitsigns').preview_hunk,
                     { buffer = bufnr, desc = '[G]it [P]review' })
+                vim.keymap.set('n', '<leader>gr', require('gitsigns').reset_hunk,
+                    { buffer = bufnr, desc = '[G]it [R]eset Hunk' })
+                vim.keymap.set('n', '<leader>gd', require('gitsigns').diffthis,
+                    { buffer = bufnr, desc = '[G]it [D]iff' })
 
                 -- don't override the built-in and fugitive keymaps
                 local gs = package.loaded.gitsigns
