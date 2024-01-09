@@ -1,4 +1,4 @@
 return {
-    "ionide/Ionide-vim",
-    ft = "fsharp"
+	"ionide/Ionide-vim",
+	ft = "fsharp",
 }

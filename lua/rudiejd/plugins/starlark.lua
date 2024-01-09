@@ -1,4 +1,3 @@
 return {
-    "cappyzawa/starlark.vim"
+	"cappyzawa/starlark.vim",
 }
-
