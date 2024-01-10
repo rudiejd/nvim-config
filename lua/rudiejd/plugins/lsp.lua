@@ -17,7 +17,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
       { 'Decodetalkers/csharpls-extended-lsp.nvim' },
       { 'Hoffs/omnisharp-extended-lsp.nvim' },
