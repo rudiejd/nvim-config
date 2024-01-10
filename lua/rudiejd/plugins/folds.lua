@@ -1,6 +1,6 @@
 return {
   'kevinhwang91/nvim-ufo',
-  dependencies = { 'neovim/nvim-lspconfig' },
+  dependencies = { 'neovim/nvim-lspconfig', 'kevinhwang91/promise-async' },
   config = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.foldingRange = {
