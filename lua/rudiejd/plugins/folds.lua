@@ -1,19 +1,28 @@
 return {
   'kevinhwang91/nvim-ufo',
-  dependencies = { 'neovim/nvim-lspconfig', 'kevinhwang91/promise-async' },
+  dependencies = {
+    'kevinhwang91/promise-async',
+    'nvim-treesitter/nvim-treesitter',
+    {
+      'luukvbaal/statuscol.nvim',
+      config = function()
+        local builtin = require 'statuscol.builtin'
+        require('statuscol').setup {
+          relculright = true,
+          segments = {
+            { text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
+            { text = { '%s' }, click = 'v:lua.ScSa' },
+            { text = { builtin.lnumfunc, ' ' }, click = 'v:lua.ScLa' },
+          },
+        }
+      end,
+    },
+  },
   config = function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = true,
+    require('ufo').setup {
+      provider_selector = function(bufnr, filetype, buftype)
+        return { 'treesitter', 'indent' }
+      end,
     }
-    local language_servers = require('lspconfig').util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
-    for _, ls in ipairs(language_servers) do
-      require('lspconfig')[ls].setup {
-        capabilities = capabilities,
-        -- you can add other fields for setting up lsp server in this table
-      }
-    end
-    require('ufo').setup()
   end,
 }
