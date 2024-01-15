@@ -45,6 +45,7 @@ return {
         preview = {
           treesitter = false,
         },
+        layout_strategy = "vertical"
       },
     }
   end,
