@@ -35,11 +35,11 @@ return {
         local function toggle_inlay_hints()
           if vim.g.inlay_hints_visible then
             vim.g.inlay_hints_visible = false
-            vim.lsp.inlay_hint(bufnr, false)
+            vim.lsp.inlay_hint.enable(bufnr, false)
           else
             if client.server_capabilities.inlayHintProvider then
               vim.g.inlay_hints_visible = true
-              vim.lsp.inlay_hint(bufnr, true)
+              vim.lsp.inlay_hint.enable(bufnr, true)
             else
               print 'no inlay hints available'
             end
@@ -67,38 +67,38 @@ return {
       local lua_opts = lsp_zero.nvim_lua_ls()
       lspconfig.lua_ls.setup(lua_opts)
       require('lspconfig').rust_analyzer.setup {}
-      lspconfig.omnisharp.setup {
-        handlers = {
-          ['textDocument/definition'] = require('omnisharp_extended').handler,
-          ['textDocument/publishDiagnostic'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-            underline = true,
-            update_in_insert = true,
-            signs = true,
-            virtual_text = false,
-          }),
-        },
-        cmd = { 'omnisharp' },
-      }
+      -- lspconfig.omnisharp.setup {
+      --   handlers = {
+      --     ['textDocument/definition'] = require('omnisharp_extended').handler,
+      --     ['textDocument/publishDiagnostic'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      --       underline = true,
+      --       update_in_insert = true,
+      --       signs = true,
+      --       virtual_text = false,
+      --     }),
+      --   },
+      --   cmd = { 'omnisharp' },
+      -- }
 
       local util = lspconfig.util
-      -- lspconfig.csharp_ls.setup {
-      --   root_dir = function(fname)
-      --     local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
-      --     for _, pattern in ipairs(root_patterns) do
-      --       local found = util.root_pattern(pattern)(fname)
-      --       if found then
-      --         return found
-      --       end
-      --     end
-      --   end,
-      --   handlers = {
-      --     ['textDocument/definition'] = require('csharpls_extended').handler,
-      --     ['textDocument/implementation'] = require('csharpls_extended').handler,
-      --     ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
-      --   },
-      --   -- hack to make it attach on BufEnter
-      --   filetypes = {},
-      -- }
+      lspconfig.csharp_ls.setup {
+        root_dir = function(fname)
+          local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
+          for _, pattern in ipairs(root_patterns) do
+            local found = util.root_pattern(pattern)(fname)
+            if found then
+              return found
+            end
+          end
+        end,
+        handlers = {
+          ['textDocument/definition'] = require('csharpls_extended').handler,
+          ['textDocument/implementation'] = require('csharpls_extended').handler,
+          ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
+        },
+        -- hack to make it attach on BufEnter
+        filetypes = {},
+      }
 
       -- python
       lspconfig.pyright.setup {}
