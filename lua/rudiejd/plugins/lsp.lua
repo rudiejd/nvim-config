@@ -49,13 +49,6 @@ return {
         -- inlay hints
         vim.keymap.set('n', '<leader>ih', toggle_inlay_hints)
 
-        -- run the edit command after the lsp is intiialized for semantic higlighting
-        -- this didn't work :(
-        -- if client.name == "csharp-ls" then
-        --     print(vim.inspect(client))
-        --     vim.cmd("e!")
-        -- end
-
         -- commenting this out for better performance
         -- lsp_zero.buffer_autoformat()
       end)
@@ -81,7 +74,20 @@ return {
       -- }
 
       local util = lspconfig.util
+      local inherited_interface_position = function(lsp_request)
+          -- find the position of the name of the file with 'I' preprended
+          local lnum, col = unpack(vim.api.nvim_eval('searchpos("I" . expand("%:t:r"))'))
+          local text_document_identifier = vim.lsp.util.make_text_document_params()
+          -- uses zero based indices
+          local position = { line = lnum - 1, character = col }
+          -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#referenceParams
+          local params = { position = position, textDocument = text_document_identifier, context = { includeDeclaration = true } }
+
+          vim.lsp.buf_request(0, lsp_request, params)
+      end
+
       lspconfig.csharp_ls.setup {
+
         root_dir = function(fname)
           local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
           for _, pattern in ipairs(root_patterns) do
@@ -96,6 +102,11 @@ return {
           ['textDocument/implementation'] = require('csharpls_extended').handler,
           ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
         },
+        on_attach = function(client, bufnr)
+          vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
+          vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
+          client.server_capabilities.semanticTokensProvider = false
+        end,
         -- hack to make it attach on BufEnter
         filetypes = {},
       }
