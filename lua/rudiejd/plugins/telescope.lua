@@ -47,6 +47,13 @@ return {
         },
         layout_strategy = "vertical"
       },
+      pickers = {
+        live_grep = {
+          additional_args = function (_)
+            return { "--hidden" }
+          end
+        }
+      }
     }
   end,
 }
