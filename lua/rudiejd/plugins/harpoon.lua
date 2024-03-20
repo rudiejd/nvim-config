@@ -6,7 +6,10 @@ return {
 
     vim.keymap.set('n', '<leader>a', mark.add_file)
     vim.keymap.set('n', '<leader>a', mark.add_file)
-    vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu, { desc = 'Harpoon Menu' })
+    vim.keymap.set('n', '<C-e>', function()
+      ui.toggle_quick_menu()
+      vim.cmd.norm("$ze")
+    end, {desc = "Toggle Harpoon Menu"})
 
     vim.keymap.set('n', '<leader>1', function()
       ui.nav_file(1)
