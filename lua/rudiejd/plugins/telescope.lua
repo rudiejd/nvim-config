@@ -52,6 +52,9 @@ return {
           additional_args = function (_)
             return { "--hidden" }
           end
+        },
+        find_files = {
+          hidden = true
         }
       }
     }

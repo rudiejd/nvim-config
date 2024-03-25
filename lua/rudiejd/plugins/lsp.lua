@@ -19,7 +19,7 @@ return {
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
-      -- { 'Decodetalkers/csharpls-extended-lsp.nvim' },
+      { 'Decodetalkers/csharpls-extended-lsp.nvim' },
       { 'Hoffs/omnisharp-extended-lsp.nvim' },
       { 'jmederosalvarado/roslyn.nvim' },
     },
@@ -60,19 +60,6 @@ return {
       local lua_opts = lsp_zero.nvim_lua_ls()
       lspconfig.lua_ls.setup(lua_opts)
       require('lspconfig').rust_analyzer.setup {}
-      lspconfig.omnisharp.setup {
-        handlers = {
-          ['textDocument/definition'] = require('omnisharp_extended').handler,
-          ['textDocument/publishDiagnostic'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-            underline = true,
-            update_in_insert = true,
-            signs = true,
-            virtual_text = false,
-          }),
-        },
-        cmd = {"omnisharp"},
-        filetypes = {"cs"}
-      }
 
       local util = lspconfig.util
       local inherited_interface_position = function(lsp_request)
@@ -87,30 +74,30 @@ return {
           vim.lsp.buf_request(0, lsp_request, params)
       end
 
-      -- lspconfig.csharp_ls.setup {
-      --
-      --   root_dir = function(fname)
-      --     local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
-      --     for _, pattern in ipairs(root_patterns) do
-      --       local found = util.root_pattern(pattern)(fname)
-      --       if found then
-      --         return found
-      --       end
-      --     end
-      --   end,
-      --   handlers = {
-      --     ['textDocument/definition'] = require('csharpls_extended').handler,
-      --     ['textDocument/implementation'] = require('csharpls_extended').handler,
-      --     ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
-      --   },
-      --   on_attach = function(client, bufnr)
-      --     vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
-      --     vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
-      --     client.server_capabilities.semanticTokensProvider = false
-      --   end,
-      --   -- hack to make it attach on BufEnter
-      --   filetypes = {},
-      -- }
+      lspconfig.csharp_ls.setup {
+
+        root_dir = function(fname)
+          local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
+          for _, pattern in ipairs(root_patterns) do
+            local found = util.root_pattern(pattern)(fname)
+            if found then
+              return found
+            end
+          end
+        end,
+        handlers = {
+          ['textDocument/definition'] = require('csharpls_extended').handler,
+          ['textDocument/implementation'] = require('csharpls_extended').handler,
+          ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
+        },
+        on_attach = function(client, bufnr)
+          vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
+          vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
+          client.server_capabilities.semanticTokensProvider = false
+        end,
+        -- hack to make it attach on BufEnter
+        filetypes = {},
+      }
 
       -- python
       lspconfig.pyright.setup {}
