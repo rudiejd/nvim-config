@@ -2,6 +2,7 @@ local util = require 'rudiejd.util'
 return {
   {
     'mfussenegger/nvim-dap',
+    dependencies = { 'mfussenegger/nvim-dap-python' },
     config = function()
       local dap = require 'dap'
 
