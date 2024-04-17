@@ -28,6 +28,9 @@ vim.keymap.set('n', '<leader>lb', function()
   end
 end)
 
+-- build a dotnet project
+vim.keymap.set('n', '<leader>bd', ':Dispatch dotnet build /property:WarningLevel=0'  , { desc = '[B]uild [D]otnet'});
+
 -- Center the window (zz) when scrolling
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Center the window when scrolling down' })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Center the window when scrolling down' })
