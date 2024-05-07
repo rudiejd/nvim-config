@@ -79,6 +79,18 @@ return {
           request = 'attach',
           processId = require('dap.utils').pick_process
         },
+        {
+          type = 'netcoredbg',
+          name = 'CLI - netcoredbg',
+          request = 'launch',
+          processId = require('dap.utils').pick_process,
+          program = function()
+            local program = vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+            local arguments = vim.fn.input('Arguments: ')
+
+            return program .. ' ' .. arguments
+          end,
+        },
       }
 
       -- pneumonic debug continue

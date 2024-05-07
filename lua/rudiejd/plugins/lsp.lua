@@ -19,7 +19,7 @@ return {
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
-      { 'Decodetalkers/csharpls-extended-lsp.nvim' },
+      -- { 'Decodetalkers/csharpls-extended-lsp.nvim' },
       { 'Hoffs/omnisharp-extended-lsp.nvim' },
       { 'jmederosalvarado/roslyn.nvim' },
     },
@@ -98,6 +98,16 @@ return {
         -- hack to make it attach on BufEnter
         filetypes = {},
       }
+
+      -- lspconfig.omnisharp.setup {
+      --   cmd = {"omnisharp"},
+      --   handlers = {
+      --     ["textDocument/definition"] = require('omnisharp_extended').definition_handler,
+      --     ["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
+      --     ["textDocument/references"] = require('omnisharp_extended').references_handler,
+      --     ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
+      --   },
+      -- }
 
       -- python
       lspconfig.pyright.setup {}
