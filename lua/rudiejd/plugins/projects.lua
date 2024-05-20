@@ -3,7 +3,7 @@ return {
   config = function()
     local opts = {
       detection_methods = { 'pattern' },
-      patterns = { '.git' },
+      patterns = { '*.sln', '.git' },
     }
     require('project_nvim').setup(opts)
   end,

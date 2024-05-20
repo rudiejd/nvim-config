@@ -19,8 +19,8 @@ return {
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
-      -- { 'Decodetalkers/csharpls-extended-lsp.nvim' },
-      { 'Hoffs/omnisharp-extended-lsp.nvim' },
+      { 'Decodetalkers/csharpls-extended-lsp.nvim' },
+      -- { 'Hoffs/omnisharp-extended-lsp.nvim' },
       { 'jmederosalvarado/roslyn.nvim' },
     },
     config = function()
@@ -63,15 +63,15 @@ return {
 
       local util = lspconfig.util
       local inherited_interface_position = function(lsp_request)
-          -- find the position of the name of the file with 'I' preprended
-          local lnum, col = unpack(vim.api.nvim_eval('searchpos("I" . expand("%:t:r"))'))
-          local text_document_identifier = vim.lsp.util.make_text_document_params()
-          -- uses zero based indices
-          local position = { line = lnum - 1, character = col }
-          -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#referenceParams
-          local params = { position = position, textDocument = text_document_identifier, context = { includeDeclaration = true } }
+        -- find the position of the name of the file with 'I' preprended
+        local lnum, col = unpack(vim.api.nvim_eval('searchpos("I" . expand("%:t:r"))'))
+        local text_document_identifier = vim.lsp.util.make_text_document_params()
+        -- uses zero based indices
+        local position = { line = lnum - 1, character = col }
+        -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#referenceParams
+        local params = { position = position, textDocument = text_document_identifier, context = { includeDeclaration = true } }
 
-          vim.lsp.buf_request(0, lsp_request, params)
+        vim.lsp.buf_request(0, lsp_request, params)
       end
 
       lspconfig.csharp_ls.setup {
@@ -195,16 +195,21 @@ return {
       lspconfig.gopls.setup {}
 
       -- Tailwind
-      lspconfig.tailwindcss.setup { filetypes = {"html"}}
+      lspconfig.tailwindcss.setup { filetypes = { "html" } }
     end,
   },
   {
     'ray-x/lsp_signature.nvim',
     event = "VeryLazy",
     -- CTRL-s for SIGNATURE
-    opts = { toggle_key = "<C-s>"},
+    opts = { toggle_key = "<C-s>" },
     config = function(_, opts)
       require 'lsp_signature'.setup(opts)
     end
+  },
+  {
+    "zeioth/garbage-day.nvim",
+    dependencies = "neovim/nvim-lspconfig",
+    event = "VeryLazy",
   }
 }

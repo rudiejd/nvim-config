@@ -114,34 +114,43 @@ vim.api.nvim_create_autocmd('CmdwinEnter', {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufWinLeave', {
-  pattern = '*',
-  desc = 'Detach the csharp_ls when the buffer is hidden for better performance',
-  group = vim.api.nvim_create_augroup('csharp_ls_unattach', {}),
-  callback = function(ev)
-    local bufnr = ev.buf
-    for _, client in pairs(vim.lsp.get_clients { bufnr = bufnr }) do
-      if client.name == 'csharp_ls' then
-        vim.lsp.buf_detach_client(bufnr, client.id)
-      end
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd('BufWinLeave', {
+--   pattern = '*',
+--   desc = 'Detach the csharp_ls when the buffer is hidden for better performance',
+--   group = vim.api.nvim_create_augroup('csharp_ls_unattach', {}),
+--   callback = function(ev)
+--     local bufnr = ev.buf
+--     for _, client in pairs(vim.lsp.get_clients { bufnr = bufnr }) do
+--       if client.name == 'csharp_ls' then
+--         vim.lsp.buf_detach_client(bufnr, client.id)
+--       end
+--     end
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd('BufWinEnter', {
+--   pattern = '*',
+--   desc = 'Attach the csharp_ls when we enter a buffer, since we kill it when a buffer is hidden',
+--   group = vim.api.nvim_create_augroup('csharp_ls_reattach', {}),
+--   callback = function(ev)
+--     local bufnr = ev.buf
+--
+--     for _, client in pairs(vim.lsp.get_clients()) do
+--       if client.name == 'csharp_ls' then
+--         vim.lsp.buf_attach_client(bufnr, client.id)
+--       end
+--     end
+--   end,
+-- })
 
-vim.api.nvim_create_autocmd('BufWinEnter', {
-  pattern = '*',
-  desc = 'Attach the csharp_ls when we enter a buffer, since we kill it when a buffer is hidden',
-  group = vim.api.nvim_create_augroup('csharp_ls_reattach', {}),
-  callback = function(ev)
-    local bufnr = ev.buf
-
-    for _, client in pairs(vim.lsp.get_clients()) do
-      if client.name == 'csharp_ls' then
-        vim.lsp.buf_attach_client(bufnr, client.id)
-      end
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd('BufWritePost', {
+--   pattern = '*.cs',
+--   desc = 'Run dotnet compiler on write',
+--   group = vim.api.nvim_create_augroup('run_dotnet_compiler', {}),
+--   callback = function(ev)
+--     vim.cmd('Dispatch dotnet build --no-restore --nologo -v:q /property:WarningLevel=0')
+--   end,
+-- })
 
 vim.api.nvim_create_user_command('DiffOrig', 'vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis', {})
 

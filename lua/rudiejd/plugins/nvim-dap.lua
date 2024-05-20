@@ -197,4 +197,11 @@ return {
       vim.fn.sign_define('DapBreakpoint', { text = '•', texthl = 'red', linehl = '', numhl = '' })
     end,
   },
+  {
+    'theHamsta/nvim-dap-virtual-text',
+    dependencies = {'mfussenegger/nvim-dap' },
+    config = function()
+      require('dap-virtual-text').setup()
+    end,
+  }
 }
