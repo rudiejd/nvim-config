@@ -38,6 +38,10 @@ vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
+-- don't show warnings, project files in dotnet builds https://github.com/neovim/neovim/blob/2c6b6358722b2df9160c3739b0cea07e8779513f/runtime/compiler/dotnet.vim#L17 
+vim.g.dotnet_errors_only = true
+vim.g.dotnet_show_project_file = false
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -82,6 +86,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --     end,
 --   },
 -- })
+
+vim.filetype.add({
+  pattern = {
+    ['.*csproj'] = 'xml.csproj',
+  }
+})
 --
 -- todo - figure out how to make this lua
 vim.api.nvim_create_autocmd('BufEnter', {

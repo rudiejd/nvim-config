@@ -55,6 +55,11 @@ return {
         },
       }
 
+      local parsers = require('nvim-treesitter.parsers')
+
+      local parser_config = parsers.get_parser_configs()
+      print(vim.inspect(parser_config.xml.filetype_to_parsername))
+
       vim.treesitter.language.register('starlark', 'tiltfile')
     end,
   },

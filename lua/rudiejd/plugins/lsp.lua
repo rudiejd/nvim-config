@@ -1,6 +1,6 @@
 return {
   {
-    'VonHeikemen/lsp-zero.nvim',
+   'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
     lazy = true,
     config = false,
@@ -9,6 +9,10 @@ return {
       vim.g.lsp_zero_extend_cmp = 0
       vim.g.lsp_zero_extend_lspconfig = 0
     end,
+  },
+  {
+    'Decodetalkers/csharpls-extended-lsp.nvim',
+    dev = true
   },
   -- LSP
   {
@@ -20,7 +24,7 @@ return {
       { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
       { 'Decodetalkers/csharpls-extended-lsp.nvim' },
-      -- { 'Hoffs/omnisharp-extended-lsp.nvim' },
+      { 'Hoffs/omnisharp-extended-lsp.nvim' },
       { 'jmederosalvarado/roslyn.nvim' },
     },
     config = function()
@@ -92,11 +96,8 @@ return {
         },
         on_attach = function(client, bufnr)
           vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
-          vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
           client.server_capabilities.semanticTokensProvider = false
         end,
-        -- hack to make it attach on BufEnter
-        filetypes = {},
       }
 
       -- lspconfig.omnisharp.setup {
@@ -108,6 +109,23 @@ return {
       --     ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
       --   },
       -- }
+      --
+      --
+      -- require('roslyn').setup({
+      --   on_attach = function() end,
+      --   capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- })
+      --
+      lspconfig.msbuild_project_tools_server.setup {
+        cmd = {"dotnet", "/home/hermeslover69/github/msbuild-project-tools-server/out/language-server/MSBuildProjectTools.LanguageServer.Host.dll"},
+        init_options = {
+          msbuildProjectToolsServer = {
+            logging = {
+              level = "verbose",
+            }
+          }
+        }
+      }
 
       -- python
       lspconfig.pyright.setup {}
@@ -166,11 +184,11 @@ return {
       -- Java
       lspconfig.jdtls.setup {}
 
-      -- YAML . I currenlty only use kuberneses YAML, so everything uses that schmea
+      -- -- YAML . I currenlty only use kuberneses YAML, so everything uses that schmea
       lspconfig.yamlls.setup {
         settings = {
           schemas = {
-            ['https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json'] = '/*.yaml',
+            ['https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json'] = '*',
           },
           redhat = {
             telemetry = {
@@ -179,9 +197,13 @@ return {
           },
           single_file_support = true,
           filetypes = { 'yaml', 'yaml.docker-compose' },
-          root_dir = util.find_git_ancestor,
         },
       }
+
+
+      -- helm files
+      lspconfig.helm_ls.setup {}
+
 
       -- Tilt files (https://tilt.dev)
       lspconfig.tilt_ls.setup {}

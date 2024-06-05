@@ -93,17 +93,12 @@ return {
         },
       }
 
-      -- pneumonic debug continue
+      vim.keymap.set('n', '<leader>dc', dap.continue, { desc = '[D]ebug [C]ontinue' })
       vim.keymap.set('n', '<leader>ds', dap.step_over, { desc = '[D]ebug [S]tep' })
-      -- pneumonic debug into
       vim.keymap.set('n', '<leader>di', dap.step_into, { desc = '[D]ebug [I]nto' })
-      -- pneumonic debug over
       vim.keymap.set('n', '<leader>do', dap.step_out, { desc = '[D]ebug [O]ver' })
-      -- pneumonic b - break
       vim.keymap.set('n', '<Leader>db', dap.toggle_breakpoint, { desc = '[D]ebug [B]reakpoint' })
-      -- pneumoic dr - dap REPL
       vim.keymap.set('n', '<Leader>dr', dap.toggle_breakpoint, { desc = '[D]ebug [R]EPL' })
-      -- pneumoic dl - dap run last
       vim.keymap.set('n', '<Leader>dl', dap.run_last, { desc = '[D]ebug [L]ast' })
     end,
   },
