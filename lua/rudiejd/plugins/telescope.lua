@@ -1,8 +1,10 @@
 return {
+  {
   'nvim-telescope/telescope.nvim',
   -- dev = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
+    'nvim-telescope/telescope-ui-select.nvim',
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'make',
@@ -21,6 +23,7 @@ return {
 
     vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = '[S]earch [P]roject' })
+    vim.keymap.set('n', '<leader>sP', telescope.extensions.projects.projects, { desc = '[S]earch [P]rojectS' })
     vim.keymap.set('n', '<leader>st', builtin.live_grep, { desc = '[S]earch [T]ext' })
     vim.keymap.set('n', '<Leader>sr', builtin.lsp_references, { desc = '[S]earch [R]eferences' })
     vim.keymap.set('n', '<Leader>sR', builtin.resume, { desc = '[S]earch [R]esume' })
@@ -38,14 +41,17 @@ return {
       actions.send_to_qflist { prompt_bufnr = current_bufnr }
     end
 
-    vim.keymap.set('n', '<C-q>', send_current_buffer_to_qflist, {})
-
     telescope.setup {
       defaults = {
         preview = {
           treesitter = false,
         },
-        layout_strategy = "vertical"
+        layout_strategy = "vertical",
+        mappings = {
+          n = {
+            ["<C-q>"] = send_current_buffer_to_qflist,
+          }
+        }
       },
       pickers = {
         live_grep = {
@@ -56,7 +62,14 @@ return {
         find_files = {
           hidden = true
         }
+      },
+      extensions = {
+        require("telescope.themes").get_dropdown {
+              -- even more opts
+        }
       }
     }
+    require('telescope').load_extension 'ui-select'
   end,
+  },
 }
