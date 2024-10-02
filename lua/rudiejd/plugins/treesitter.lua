@@ -3,7 +3,7 @@ return {
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'c_sharp', 'javascript', 'rust' },
+        ensure_installed = { 'vim', 'vimdoc', 'luadoc', 'lua', 'c_sharp', 'javascript', 'rust' },
         auto_install = true,
 
         highlight = {
