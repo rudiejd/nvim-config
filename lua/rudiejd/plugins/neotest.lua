@@ -22,6 +22,10 @@ return {
           require('neotest-plenary').setup {},
           require 'neotest-dotnet' {
             discovery_root = 'solution',
+            dotnet_additional_args = {
+              '--no-restore',
+              '--nologo',
+            }
           },
           require 'neotest-jest' {
             jestCommand = 'npm test -- --runInBand --no-cache --watchAll=false',

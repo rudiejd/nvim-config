@@ -10,10 +10,9 @@ return {
       vim.g.lsp_zero_extend_lspconfig = 0
     end,
   },
-  {
-    'Decodetalkers/csharpls-extended-lsp.nvim',
-    dev = true
-  },
+  -- {
+  --   'Decodetalkers/csharpls-extended-lsp.nvim',
+  -- },
   -- LSP
   {
     'neovim/nvim-lspconfig',
@@ -24,8 +23,7 @@ return {
       { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
       { 'Decodetalkers/csharpls-extended-lsp.nvim' },
-      { 'Hoffs/omnisharp-extended-lsp.nvim' },
-      { 'jmederosalvarado/roslyn.nvim' },
+      -- { 'Hoffs/omnisharp-extended-lsp.nvim' },
     },
     config = function()
       -- This is where all the LSP shenanigans will live
@@ -78,37 +76,32 @@ return {
         vim.lsp.buf_request(0, lsp_request, params)
       end
 
-      -- lspconfig.csharp_ls.setup {
-      --
-      --   root_dir = function(fname)
-      --     local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
-      --     for _, pattern in ipairs(root_patterns) do
-      --       local found = util.root_pattern(pattern)(fname)
-      --       if found then
-      --         return found
-      --       end
-      --     end
-      --   end,
-      --   handlers = {
-      --     ['textDocument/definition'] = require('csharpls_extended').handler,
-      --     ['textDocument/implementation'] = require('csharpls_extended').handler,
-      --     ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
-      --   },
-      --   on_attach = function(client, bufnr)
-      --     vim.keymap.set('n', 'gI', function() inherited_interface_position('textDocument/definition') end)
-      --     client.server_capabilities.semanticTokensProvider = false
-      --   end,
-      -- }
-
-      lspconfig.omnisharp.setup {
-        cmd = {"omnisharp"},
+      lspconfig.csharp_ls.setup {
+        root_dir = function(fname)
+          local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
+          for _, pattern in ipairs(root_patterns) do
+            local found = util.root_pattern(pattern)(fname)
+            if found then
+              return found
+            end
+          end
+        end,
         handlers = {
-          ["textDocument/definition"] = require('omnisharp_extended').definition_handler,
-          ["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
-          ["textDocument/references"] = require('omnisharp_extended').references_handler,
-          ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
-        },
+          ['textDocument/definition'] = require('csharpls_extended').handler,
+          ['textDocument/implementation'] = require('csharpls_extended').handler,
+          ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
+        }
       }
+
+      -- lspconfig.omnisharp.setup {
+      --   cmd = {"omnisharp"},
+      --   handlers = {
+      --     ["textDocument/definition"] = require('omnisharp_extended').definition_handler,
+      --     ["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
+      --     ["textDocument/references"] = require('omnisharp_extended').references_handler,
+      --     ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
+      --   },
+      -- }
       --
       --
       -- require('roslyn').setup({
