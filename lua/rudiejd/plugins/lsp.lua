@@ -142,7 +142,7 @@ return {
       lspconfig.ocamllsp.setup {}
 
       -- JS/TS
-      lspconfig.tsserver.setup {}
+      lspconfig.ts_ls.setup {}
 
       lspconfig.eslint.setup {
         -- not sure if I like this yet
