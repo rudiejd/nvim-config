@@ -142,7 +142,7 @@ return {
       lspconfig.ocamllsp.setup {}
 
       -- JS/TS
-      lspconfig.ts_ls.setup {}
+      lspconfig.vtsls.setup {}
 
       lspconfig.eslint.setup {
         -- not sure if I like this yet
@@ -208,6 +208,15 @@ return {
 
       -- Tailwind
       lspconfig.tailwindcss.setup { filetypes = { "html" } }
+      lspconfig.lexical.setup {
+        cmd = { "my/home/projects/_build/dev/package/lexical/bin/start_lexical.sh" },
+        root_dir = function(fname)
+          return util.root_pattern("mix.exs", ".git")(fname) or vim.loop.cwd()
+        end,
+        filetypes = { "elixir", "eelixir", "heex" },
+        -- optional settings
+        settings = {}
+      }
     end,
   },
   {
