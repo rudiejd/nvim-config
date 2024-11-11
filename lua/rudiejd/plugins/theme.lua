@@ -1,9 +1,17 @@
 return {
   {
+    'scottmckendry/cyberdream.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function ()
+      vim.cmd([[colorscheme cyberdream]])
+    end
+  },
+  {
     'sainnhe/everforest',
     config = function()
-      vim.cmd([[colorscheme everforest]])
-      vim.g.everforest_background = soft
+      -- vim.cmd([[colorscheme everforest]])
+      -- vim.g.everforest_background = soft
     end
   },
   {
