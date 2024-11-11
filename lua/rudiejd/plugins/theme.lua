@@ -1,5 +1,11 @@
 return {
-
+  {
+    'sainnhe/everforest',
+    config = function()
+      vim.cmd([[colorscheme everforest]])
+      vim.g.everforest_background = soft
+    end
+  },
   {
     'folke/tokyonight.nvim',
     config = function()
@@ -38,8 +44,8 @@ return {
         ---@param colors ColorScheme
         on_highlights = function(highlights, colors) end,
       }
-      vim.cmd [[colorscheme tokyonight]]
-    end,
+      -- vim.cmd [[colorscheme tokyonight]]
+    end
   },
   {
     'ellisonleao/gruvbox.nvim',

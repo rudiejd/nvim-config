@@ -10,6 +10,7 @@ return {
       'Issafalcon/neotest-dotnet',
       'haydenmeade/neotest-jest',
       'antoinemadec/FixCursorHold.nvim',
+      'jfpedroza/neotest-elixir'
     },
     config = function()
       local neotest = require 'neotest'
@@ -34,6 +35,7 @@ return {
               return vim.fn.getcwd()
             end,
           },
+          require 'neotest-elixir'
         },
         icons = {
           expanded = '',

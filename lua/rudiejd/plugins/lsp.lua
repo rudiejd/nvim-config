@@ -209,7 +209,7 @@ return {
       -- Tailwind
       lspconfig.tailwindcss.setup { filetypes = { "html" } }
       lspconfig.lexical.setup {
-        cmd = { "my/home/projects/_build/dev/package/lexical/bin/start_lexical.sh" },
+        cmd = { "/home/jd/git/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
         root_dir = function(fname)
           return util.root_pattern("mix.exs", ".git")(fname) or vim.loop.cwd()
         end,
