@@ -1,6 +1,6 @@
 return {
   "kndndrj/nvim-dbee",
-  dev = true,
+  -- dev = true,
   dependencies = {
     "MunifTanjim/nui.nvim",
   },

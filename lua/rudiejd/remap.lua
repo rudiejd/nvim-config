@@ -36,3 +36,5 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Center the window when scrolli
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Center the window when scrolling down' })
 
 vim.keymap.set('n', '<leader>x', vim.diagnostic.setqflist, { desc = 'E[x]ception - open diagnostics in qfist' })
+-- This pneumonic is really bad, I'm just used to the built-in bind that got removed
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { desc = '[G]o [L]ist - open diagnostic list. ' })

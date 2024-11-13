@@ -50,10 +50,26 @@ return {
           failed = '',
           unknown = '',
         },
+        summary = {
+          enabled = true,
+          animated = true,
+          expand_errors = true,
+          follow = true
+        }
       }
       vim.keymap.set('n', '<leader>tr', function()
         neotest.run.run()
       end, { desc = '[T]est [R]un' })
+      vim.keymap.set('n', '<leader>tw', function()
+        neotest.watch.toggle()
+      end, { desc = '[T]est [W]atch' })
+      vim.keymap.set('n', '<leader>ta', function()
+        neotest.run.run(vim.fn.getcwd())
+        neotest.summary.open()
+      end, { desc = '[T]est [A]ll' })
+      vim.keymap.set('n', '<leader>tl', function()
+        neotest.run.run_last()
+      end, { desc = '[T]est [L]ast' })
       vim.keymap.set('n', '<leader>td', function()
         neotest.run.run { strategy = 'dap' }
       end, { desc = '[T]est [D]ebug' })
