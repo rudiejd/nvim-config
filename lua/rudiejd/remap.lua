@@ -29,7 +29,7 @@ vim.keymap.set('n', '<leader>lb', function()
 end)
 
 -- build a dotnet project
-vim.keymap.set('n', '<leader>bd', ':Dispatch dotnet build /property:WarningLevel=0<CR>', { desc = '[B]uild [D]otnet'});
+vim.keymap.set('n', '<leader>bd', ':Dispatch dotnet build /property:WarningLevel=0<CR>', { desc = '[B]uild [D]otnet' });
 
 -- Center the window (zz) when scrolling
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Center the window when scrolling down' })
@@ -40,12 +40,13 @@ vim.keymap.set('n', '<leader>x', vim.diagnostic.setqflist, { desc = 'E[x]ception
 vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { desc = '[G]o [L]ist - open diagnostic list. ' })
 
 -- Enable/disable virtual text
-vim.keymap.set('n', ']oy', function() vim.diagnostic.config { virtual_text = false } end)
-vim.keymap.set('n', '[oy', function() vim.diagnostic.config { virtual_text = true } end)
+vim.keymap.set('n', ']oy', function() vim.diagnostic.config { virtual_text = false } end,
+  { desc = 'Disable virtual text for LSP diagnostics' })
+vim.keymap.set('n', '[oy', function() vim.diagnostic.config { virtual_text = true } end,
+  { desc = 'Enable virtual text for LSP diagnostics' })
 
 -- Enable / disable sign column
 vim.keymap.set('n', ']oz', function() vim.opt.signcolumn = 'no' end,
-{ desc = 'Enable virtual text for LSP diagnostics' })
+  { desc = 'Disable signcolumn' })
 vim.keymap.set('n', '[oz', function() vim.opt.signcolumn = 'yes' end,
- { desc = 'Enable virtual text for LSP diagnostics' })
-
+  { desc = 'Enable signcolumn' })
