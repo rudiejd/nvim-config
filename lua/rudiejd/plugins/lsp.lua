@@ -220,7 +220,7 @@ return {
       -- lspconfig.nextls.setup { cmd = {"nextls"} }
 
       -- terraform LSP
-      lspconfig.terraform_lsp.setup{}
+      lspconfig.terraformls.setup{}
     end,
   },
   {
