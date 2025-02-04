@@ -218,6 +218,9 @@ return {
       -- }
       lspconfig.elixirls.setup{ cmd = {"elixir-ls"} }
       -- lspconfig.nextls.setup { cmd = {"nextls"} }
+
+      -- terraform LSP
+      lspconfig.terraform_lsp.setup{}
     end,
   },
   {
