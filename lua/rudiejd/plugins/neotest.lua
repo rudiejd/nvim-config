@@ -55,6 +55,11 @@ return {
           animated = true,
           expand_errors = true,
           follow = true
+        },
+        status = {
+          enabled = true,
+          signs = true,
+          virtual_text = true
         }
       }
       vim.keymap.set('n', '<leader>tr', function()
