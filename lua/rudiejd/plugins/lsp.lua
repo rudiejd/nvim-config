@@ -1,6 +1,6 @@
 return {
   {
-   'VonHeikemen/lsp-zero.nvim',
+    'VonHeikemen/lsp-zero.nvim',
     lazy = true,
     config = false,
     init = function()
@@ -109,7 +109,7 @@ return {
       -- })
       --
       lspconfig.msbuild_project_tools_server.setup {
-        cmd = {"dotnet", "/home/hermeslover69/github/msbuild-project-tools-server/out/language-server/MSBuildProjectTools.LanguageServer.Host.dll"},
+        cmd = { "dotnet", "/home/hermeslover69/github/msbuild-project-tools-server/out/language-server/MSBuildProjectTools.LanguageServer.Host.dll" },
         init_options = {
           msbuildProjectToolsServer = {
             logging = {
@@ -120,7 +120,16 @@ return {
       }
 
       -- python
-      lspconfig.pyright.setup {}
+      lspconfig.pyright.setup {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "off"
+            }
+          }
+        }
+      }
+
       lspconfig.pyright.before_init = function(params, config)
         local Path = require 'plenary.path'
         local venv = Path:new((config.root_dir:gsub('/', Path.path.sep)), '.venv')
@@ -216,11 +225,11 @@ return {
       --   -- optional settings
       --   settings = {}
       -- }
-      lspconfig.elixirls.setup{ cmd = {"elixir-ls"} }
+      lspconfig.elixirls.setup { cmd = { "elixir-ls" } }
       -- lspconfig.nextls.setup { cmd = {"nextls"} }
 
       -- terraform LSP
-      lspconfig.terraformls.setup{}
+      lspconfig.terraformls.setup {}
     end,
   },
   {

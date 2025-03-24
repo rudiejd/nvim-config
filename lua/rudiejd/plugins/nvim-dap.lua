@@ -92,6 +92,28 @@ return {
           end,
         },
       }
+      dap.adapters.mix_task = {
+        type = 'executable',
+        command = vim.fn.expand('~/git/elixir-ls/release/debug_adapter.sh'), -- debug_adapter.bat for windows
+        args = {}
+      }
+
+      dap.configurations.elixir = {
+        {
+          type = "mix_task",
+          name = "mix test",
+          task = 'test',
+          taskArgs = { "--trace" },
+          request = "launch",
+          startApps = true, -- for Phoenix projects
+          projectDir = "${workspaceFolder}",
+          requireFiles = {
+            "test/**/test_helper.exs",
+            "test/**/*_test.exs"
+          }
+        },
+      }
+
 
       vim.keymap.set('n', '<leader>dc', dap.continue, { desc = '[D]ebug [C]ontinue' })
       vim.keymap.set('n', '<leader>ds', dap.step_over, { desc = '[D]ebug [S]tep' })
@@ -104,7 +126,7 @@ return {
   },
   {
     'rcarriga/nvim-dap-ui',
-    dependencies = {'nvim-neotest/nvim-nio'},
+    dependencies = { 'nvim-neotest/nvim-nio' },
     config = function()
       local dap, dapui = require 'dap', require 'dapui'
       dapui.setup {
@@ -166,8 +188,8 @@ return {
           },
         },
         floating = {
-          max_height = nil, -- These can be integers or a float between 0 and 1.
-          max_width = nil, -- Floats will be treated as percentage of your screen.
+          max_height = nil,  -- These can be integers or a float between 0 and 1.
+          max_width = nil,   -- Floats will be treated as percentage of your screen.
           border = 'single', -- Border style. Can be "single", "double" or "rounded"
           mappings = {
             close = { 'q', '<Esc>' },
@@ -193,7 +215,7 @@ return {
   },
   {
     'theHamsta/nvim-dap-virtual-text',
-    dependencies = {'mfussenegger/nvim-dap' },
+    dependencies = { 'mfussenegger/nvim-dap' },
     config = function()
       require('nvim-dap-virtual-text').setup()
     end,
