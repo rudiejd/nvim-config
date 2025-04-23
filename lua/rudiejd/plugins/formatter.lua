@@ -9,7 +9,8 @@ return {
           c = { 'clang-format' },
           cpp = { 'clang-format' },
           python = { 'ruff' },
-          terraform = { 'tofu_fmt' }
+          terraform = { 'tofu_fmt' },
+          elixir = { 'mix' }
 
         },
         format_on_save = {
