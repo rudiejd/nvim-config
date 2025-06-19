@@ -19,7 +19,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
       { 'Decodetalkers/csharpls-extended-lsp.nvim' },
       -- { 'Hoffs/omnisharp-extended-lsp.nvim' },
@@ -65,12 +65,13 @@ return {
       local util = lspconfig.util
       local inherited_interface_position = function(lsp_request)
         -- find the position of the name of the file with 'I' preprended
-        local lnum, col = unpack(vim.api.nvim_eval('searchpos("I" . expand("%:t:r"))'))
+        local lnum, col = unpack(vim.api.nvim_eval 'searchpos("I" . expand("%:t:r"))')
         local text_document_identifier = vim.lsp.util.make_text_document_params()
         -- uses zero based indices
         local position = { line = lnum - 1, character = col }
         -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#referenceParams
-        local params = { position = position, textDocument = text_document_identifier, context = { includeDeclaration = true } }
+        local params =
+          { position = position, textDocument = text_document_identifier, context = { includeDeclaration = true } }
 
         vim.lsp.buf_request(0, lsp_request, params)
       end
@@ -89,7 +90,7 @@ return {
           ['textDocument/definition'] = require('csharpls_extended').handler,
           ['textDocument/implementation'] = require('csharpls_extended').handler,
           ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
-        }
+        },
       }
 
       -- lspconfig.omnisharp.setup {
@@ -109,14 +110,17 @@ return {
       -- })
       --
       lspconfig.msbuild_project_tools_server.setup {
-        cmd = { "dotnet", "/home/hermeslover69/github/msbuild-project-tools-server/out/language-server/MSBuildProjectTools.LanguageServer.Host.dll" },
+        cmd = {
+          'dotnet',
+          '/home/hermeslover69/github/msbuild-project-tools-server/out/language-server/MSBuildProjectTools.LanguageServer.Host.dll',
+        },
         init_options = {
           msbuildProjectToolsServer = {
             logging = {
-              level = "verbose",
-            }
-          }
-        }
+              level = 'verbose',
+            },
+          },
+        },
       }
 
       -- python
@@ -124,10 +128,10 @@ return {
         settings = {
           python = {
             analysis = {
-              typeCheckingMode = "off"
-            }
-          }
-        }
+              typeCheckingMode = 'off',
+            },
+          },
+        },
       }
 
       lspconfig.pyright.before_init = function(params, config)
@@ -198,10 +202,8 @@ return {
         },
       }
 
-
       -- helm files
       lspconfig.helm_ls.setup {}
-
 
       -- Tilt files (https://tilt.dev)
       lspconfig.tilt_ls.setup {}
@@ -215,7 +217,7 @@ return {
       lspconfig.gopls.setup {}
 
       -- Tailwind
-      lspconfig.tailwindcss.setup { filetypes = { "html" } }
+      lspconfig.tailwindcss.setup { filetypes = { 'html' } }
       -- lspconfig.lexical.setup {
       --   cmd = { vim.fn.expand("~/git/lexical/_build/dev/package/lexical/bin/start_lexical.sh") },
       --   root_dir = function(fname)
@@ -225,25 +227,28 @@ return {
       --   -- optional settings
       --   settings = {}
       -- }
-      lspconfig.elixirls.setup { cmd = { "elixir-ls" } }
-      -- lspconfig.nextls.setup { cmd = {"nextls"} }
+      -- lspconfig.elixirls.setup { cmd = { 'elixir-ls' } }
+      -- lspconfig.nextls.setup { cmd = { 'nextls', '--stdio' } }
 
       -- terraform LSP
       lspconfig.terraformls.setup {}
+
+      -- racket
+      lspconfig.racket_langserver.setup {}
     end,
   },
   {
     'ray-x/lsp_signature.nvim',
-    event = "VeryLazy",
+    event = 'VeryLazy',
     -- CTRL-s for SIGNATURE
-    opts = { toggle_key = "<C-s>" },
+    opts = { toggle_key = '<C-s>' },
     config = function(_, opts)
-      require 'lsp_signature'.setup(opts)
-    end
+      require('lsp_signature').setup(opts)
+    end,
   },
   {
-    "zeioth/garbage-day.nvim",
-    dependencies = "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-  }
+    'zeioth/garbage-day.nvim',
+    dependencies = 'neovim/nvim-lspconfig',
+    event = 'VeryLazy',
+  },
 }
