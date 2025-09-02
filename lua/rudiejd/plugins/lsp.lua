@@ -156,30 +156,30 @@ return {
       -- JS/TS
       lspconfig.vtsls.setup {}
 
-      lspconfig.eslint.setup {
-        -- not sure if I like this yet
-        on_attach = function(client, bufnr)
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            buffer = bufnr,
-            command = 'EslintFixAll',
-          })
-        end,
-        -- this isn't the default, but that one seemed slow
-        root_dir = util.find_git_ancestor,
-        filetypes = {
-          'javascript',
-          'javascriptreact',
-          'javascript.jsx',
-          'typescript',
-          'typescriptreact',
-          'typescript.tsx',
-          'vue',
-          'svelte',
-          'astro',
-        },
-      }
+      -- lspconfig.eslint.setup {
+      --   -- not sure if I like this yet
+      --   on_attach = function(client, bufnr)
+      --     vim.api.nvim_create_autocmd('BufWritePre', {
+      --       buffer = bufnr,
+      --       command = 'EslintFixAll',
+      --     })
+      --   end,
+      --   -- this isn't the default, but that one seemed slow
+      --   root_dir = util.find_git_ancestor,
+      --   filetypes = {
+      --     'javascript',
+      --     'javascriptreact',
+      --     'javascript.jsx',
+      --     'typescript',
+      --     'typescriptreact',
+      --     'typescript.tsx',
+      --     'vue',
+      --     'svelte',
+      --     'astro',
+      --   },
+      -- }
 
-      require'lspconfig'.svlangserver.setup{}
+      lspconfig.svelte.setup {}
 
       -- Docker
       lspconfig.dockerls.setup {}
