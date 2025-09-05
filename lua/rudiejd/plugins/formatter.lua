@@ -10,6 +10,9 @@ return {
           cpp = { 'clang-format' },
           python = { 'ruff' },
           terraform = { 'tofu_fmt' },
+          svelte = { 'prettier' },
+          typescript = { 'prettier' },
+          javascript = { 'prettier' },
         },
         format_on_save = {
           timeout_ms = 1000,
