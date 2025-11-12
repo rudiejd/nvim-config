@@ -19,7 +19,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
       { 'Decodetalkers/csharpls-extended-lsp.nvim' },
       -- { 'Hoffs/omnisharp-extended-lsp.nvim' },
@@ -56,63 +56,35 @@ return {
 
       require('neodev').setup {}
 
-      local lspconfig = require 'lspconfig'
       -- (Optional) Configure lua language server for neovim
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      lspconfig.lua_ls.setup(lua_opts)
-      require('lspconfig').rust_analyzer.setup {}
+      -- local lua_opts = lsp_zero.nvim_lua_ls()
 
-      local util = lspconfig.util
-      local inherited_interface_position = function(lsp_request)
-        -- find the position of the name of the file with 'I' preprended
-        local lnum, col = unpack(vim.api.nvim_eval 'searchpos("I" . expand("%:t:r"))')
-        local text_document_identifier = vim.lsp.util.make_text_document_params()
-        -- uses zero based indices
-        local position = { line = lnum - 1, character = col }
-        -- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#referenceParams
-        local params =
-          { position = position, textDocument = text_document_identifier, context = { includeDeclaration = true } }
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" } }
+          }
+        }
+      })
+      vim.lsp.enable('lua_ls')
 
-        vim.lsp.buf_request(0, lsp_request, params)
-      end
+      vim.lsp.enable('rust_analyzer')
 
-      lspconfig.csharp_ls.setup {
-        root_dir = function(fname)
-          local root_patterns = { '*.sln', '*.csproj', 'omnisharp.json', 'function.json' }
-          for _, pattern in ipairs(root_patterns) do
-            local found = util.root_pattern(pattern)(fname)
-            if found then
-              return found
-            end
-          end
-        end,
+      vim.lsp.config("csharp_ls", {
         handlers = {
           ['textDocument/definition'] = require('csharpls_extended').handler,
           ['textDocument/implementation'] = require('csharpls_extended').handler,
           ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
         },
-      }
+      })
 
-      -- lspconfig.omnisharp.setup {
-      --   cmd = {"omnisharp"},
-      --   handlers = {
-      --     ["textDocument/definition"] = require('omnisharp_extended').definition_handler,
-      --     ["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
-      --     ["textDocument/references"] = require('omnisharp_extended').references_handler,
-      --     ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
-      --   },
-      -- }
-      --
-      --
-      -- require('roslyn').setup({
-      --   on_attach = function() end,
-      --   capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- })
-      --
-      lspconfig.msbuild_project_tools_server.setup {
+      vim.lsp.enable('csharp_ls')
+
+      vim.lsp.config("msbuild_project_tools_server", {
         cmd = {
           'dotnet',
-          '/home/hermeslover69/github/msbuild-project-tools-server/out/language-server/MSBuildProjectTools.LanguageServer.Host.dll',
+          'insert-path-to-host-dll',
         },
         init_options = {
           msbuildProjectToolsServer = {
@@ -120,79 +92,37 @@ return {
               level = 'verbose',
             },
           },
-        },
-      }
+        }
+      })
+      vim.lsp.enable('msbuild_project_tools_server')
 
       -- python
-      lspconfig.pyright.setup {
-        settings = {
-          python = {
-            analysis = {
-              typeCheckingMode = 'off',
-            },
-          },
-        },
-      }
-
-      lspconfig.pyright.before_init = function(params, config)
-        local Path = require 'plenary.path'
-        local venv = Path:new((config.root_dir:gsub('/', Path.path.sep)), '.venv')
-        if venv:joinpath('bin'):is_dir() then
-          config.settings.python.pythonPath = tostring(venv:joinpath('bin', 'python'))
-        else
-          config.settings.python.pythonPath = tostring(venv:joinpath('Scripts', 'python.exe'))
-        end
-      end
-
-      -- -- f# (replaced with ionide)
-      -- lspconfig.fsautocomplete.setup({})
+      vim.lsp.enable('zuban')
 
       -- C++
-      lspconfig.clangd.setup {}
+      vim.lsp.enable('clangd')
 
       -- ocaml
-      lspconfig.ocamllsp.setup {}
+      vim.lsp.enable('ocamllsp')
 
       -- JS/TS
-      lspconfig.vtsls.setup {}
+      vim.lsp.enable('vtsls')
 
-      -- lspconfig.eslint.setup {
-      --   -- not sure if I like this yet
-      --   on_attach = function(client, bufnr)
-      --     vim.api.nvim_create_autocmd('BufWritePre', {
-      --       buffer = bufnr,
-      --       command = 'EslintFixAll',
-      --     })
-      --   end,
-      --   -- this isn't the default, but that one seemed slow
-      --   root_dir = util.find_git_ancestor,
-      --   filetypes = {
-      --     'javascript',
-      --     'javascriptreact',
-      --     'javascript.jsx',
-      --     'typescript',
-      --     'typescriptreact',
-      --     'typescript.tsx',
-      --     'vue',
-      --     'svelte',
-      --     'astro',
-      --   },
-      -- }
-
-      lspconfig.svelte.setup {}
+      vim.lsp.enable('svelte')
 
       -- Docker
-      lspconfig.dockerls.setup {}
-      lspconfig.docker_compose_language_service.setup {}
+      vim.lsp.enable('dockerls')
+      vim.lsp.enable('docker_compose_language_service')
 
       -- Java
-      lspconfig.jdtls.setup {}
+      vim.lsp.enable('jdtls')
 
       -- -- YAML . I currenlty only use kuberneses YAML, so everything uses that schmea
-      lspconfig.yamlls.setup {
+      vim.lsp.config('yamlls', {
         settings = {
           schemas = {
-            ['https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json'] = '*',
+            ['https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json'] =
+            '*',
           },
           redhat = {
             telemetry = {
@@ -202,24 +132,26 @@ return {
           single_file_support = true,
           filetypes = { 'yaml', 'yaml.docker-compose' },
         },
-      }
+      })
+      vim.lsp.enable('yamlls')
 
       -- helm files
-      lspconfig.helm_ls.setup {}
+      vim.lsp.enable('helm_ls')
 
       -- Tilt files (https://tilt.dev)
-      lspconfig.tilt_ls.setup {}
+      vim.lsp.enable('tilt_ls')
       -- bash
-      lspconfig.bashls.setup {}
+      vim.lsp.enable('bashls')
 
       -- cmake
-      lspconfig.neocmake.setup {}
+      vim.lsp.enable('neocmake')
 
       -- Go
-      lspconfig.gopls.setup {}
+      vim.lsp.enable('gopls')
 
       -- Tailwind
-      lspconfig.tailwindcss.setup { filetypes = { 'html' } }
+      vim.lsp.enable('tailwindcss')
+
       -- lspconfig.lexical.setup {
       --   cmd = { vim.fn.expand("~/git/lexical/_build/dev/package/lexical/bin/start_lexical.sh") },
       --   root_dir = function(fname)
@@ -233,10 +165,10 @@ return {
       -- lspconfig.nextls.setup { cmd = { 'nextls', '--stdio' } }
 
       -- terraform LSP
-      lspconfig.terraformls.setup {}
+      vim.lsp.enable('terraformls')
 
       -- racket
-      lspconfig.racket_langserver.setup {}
+      vim.lsp.enable('racket_langserver')
     end,
   },
   {
