@@ -1,33 +1,17 @@
 return {
-  {
-    'VonHeikemen/lsp-zero.nvim',
-    lazy = true,
-    config = false,
-    init = function()
-      -- Disable automatic setup, we are doing it manually
-      vim.g.lsp_zero_extend_cmp = 0
-      vim.g.lsp_zero_extend_lspconfig = 0
-    end,
-  },
-  -- {
-  --   'Decodetalkers/csharpls-extended-lsp.nvim',
-  -- },
-  -- LSP
-  {
+{
     'neovim/nvim-lspconfig',
     cmd = 'LspInfo',
-    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'j-hui/fidget.nvim',                       tag = 'legacy', opts = {} },
       { 'folke/neodev.nvim' },
-      { 'Decodetalkers/csharpls-extended-lsp.nvim' },
-      -- { 'Hoffs/omnisharp-extended-lsp.nvim' },
-    },
+      { 'Decodetalkers/csharpls-extended-lsp.nvim' }
+    }
+    ,
     config = function()
       -- This is where all the LSP shenanigans will live
       local lsp_zero = require 'lsp-zero'
-      lsp_zero.extend_lspconfig()
       -- formatter config
       lsp_zero.on_attach(function(client, bufnr)
         lsp_zero.default_keymaps { buffer = bufnr, preserve_mappings = false }
@@ -179,10 +163,5 @@ return {
     config = function(_, opts)
       require('lsp_signature').setup(opts)
     end,
-  },
-  {
-    'zeioth/garbage-day.nvim',
-    dependencies = 'neovim/nvim-lspconfig',
-    event = 'VeryLazy',
-  },
+  }
 }
