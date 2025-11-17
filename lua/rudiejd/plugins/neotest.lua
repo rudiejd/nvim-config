@@ -54,7 +54,8 @@ return {
           enabled = true,
           animated = true,
           expand_errors = true,
-          follow = true
+          follow = true,
+          open = "botright vsplit | vertical resize 80"
         },
         status = {
           enabled = true,
