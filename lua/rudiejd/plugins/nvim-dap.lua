@@ -2,6 +2,7 @@ local util = require 'rudiejd.util'
 return {
   {
     'mfussenegger/nvim-dap',
+    enabled = false,
     dependencies = { 'mfussenegger/nvim-dap-python' },
     config = function()
       local dap = require 'dap'
@@ -126,6 +127,7 @@ return {
   },
   {
     'rcarriga/nvim-dap-ui',
+    enabled = false,
     dependencies = { 'nvim-neotest/nvim-nio' },
     config = function()
       local dap, dapui = require 'dap', require 'dapui'
@@ -215,6 +217,7 @@ return {
   },
   {
     'theHamsta/nvim-dap-virtual-text',
+    enabled = false,
     dependencies = { 'mfussenegger/nvim-dap' },
     config = function()
       require('nvim-dap-virtual-text').setup()
