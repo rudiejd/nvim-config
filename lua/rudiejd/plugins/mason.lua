@@ -7,8 +7,7 @@ return {
   },
   {
     'williamboman/mason-lspconfig.nvim',
-    dependencies = { 'williamboman/mason.nvim', 'VonHeikemen/lsp-zero.nvim' },
-    ensure_installed = { 'lua_ls', 'rust_analyzer', 'csharp-ls', 'netcoredbg' },
+    dependencies = { 'williamboman/mason.nvim' },
     automatic_installation = true,
   },
 }
