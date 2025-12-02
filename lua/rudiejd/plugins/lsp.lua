@@ -1,5 +1,5 @@
 return {
-{
+  {
     'neovim/nvim-lspconfig',
     cmd = 'LspInfo',
     dependencies = {
@@ -40,21 +40,12 @@ return {
 
       require('neodev').setup {}
 
-      -- (Optional) Configure lua language server for neovim
-      -- local lua_opts = lsp_zero.nvim_lua_ls()
-
-      vim.lsp.config("lua_ls", {
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" } }
-          }
-        }
-      })
       vim.lsp.enable('lua_ls')
 
       vim.lsp.enable('rust_analyzer')
 
+
+      -- C#
       vim.lsp.config("csharp_ls", {
         handlers = {
           ['textDocument/definition'] = require('csharpls_extended').handler,
@@ -62,9 +53,7 @@ return {
           ['textDocument/typeDefinition'] = require('csharpls_extended').handler,
         },
       })
-
       vim.lsp.enable('csharp_ls')
-
       vim.lsp.config("msbuild_project_tools_server", {
         cmd = {
           'dotnet',
@@ -81,27 +70,22 @@ return {
       vim.lsp.enable('msbuild_project_tools_server')
 
       -- python
-      vim.lsp.enable('zuban')
+      vim.lsp.enable('ty')
 
       -- C++
       vim.lsp.enable('clangd')
 
-      -- ocaml
       vim.lsp.enable('ocamllsp')
 
       -- JS/TS
       vim.lsp.enable('vtsls')
-
       vim.lsp.enable('svelte')
 
-      -- Docker
       vim.lsp.enable('dockerls')
       vim.lsp.enable('docker_compose_language_service')
 
-      -- Java
       vim.lsp.enable('jdtls')
 
-      -- -- YAML . I currenlty only use kuberneses YAML, so everything uses that schmea
       vim.lsp.config('yamlls', {
         settings = {
           schemas = {
@@ -119,39 +103,19 @@ return {
       })
       vim.lsp.enable('yamlls')
 
-      -- helm files
       vim.lsp.enable('helm_ls')
 
-      -- Tilt files (https://tilt.dev)
       vim.lsp.enable('tilt_ls')
-      -- bash
       vim.lsp.enable('bashls')
 
-      -- cmake
       vim.lsp.enable('neocmake')
 
-      -- Go
       vim.lsp.enable('gopls')
 
-      -- Tailwind
       vim.lsp.enable('tailwindcss')
 
-      -- lspconfig.lexical.setup {
-      --   cmd = { vim.fn.expand("~/git/lexical/_build/dev/package/lexical/bin/start_lexical.sh") },
-      --   root_dir = function(fname)
-      --     return util.root_pattern("mix.exs", ".git")(fname) or vim.loop.cwd()
-      --   end,
-      --   filetypes = { "elixir", "eelixir", "heex" },
-      --   -- optional settings
-      --   settings = {}
-      -- }
-      -- lspconfig.elixirls.setup { cmd = { 'elixir-ls' } }
-      -- lspconfig.nextls.setup { cmd = { 'nextls', '--stdio' } }
-
-      -- terraform LSP
       vim.lsp.enable('terraformls')
 
-      -- racket
       vim.lsp.enable('racket_langserver')
     end,
   },

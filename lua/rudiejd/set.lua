@@ -38,7 +38,7 @@ vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
--- don't show warnings, project files in dotnet builds https://github.com/neovim/neovim/blob/2c6b6358722b2df9160c3739b0cea07e8779513f/runtime/compiler/dotnet.vim#L17 
+-- don't show warnings, project files in dotnet builds https://github.com/neovim/neovim/blob/2c6b6358722b2df9160c3739b0cea07e8779513f/runtime/compiler/dotnet.vim#L17
 vim.g.dotnet_errors_only = true
 vim.g.dotnet_show_project_file = false
 
@@ -162,7 +162,8 @@ vim.api.nvim_create_autocmd('CmdwinEnter', {
 --   end,
 -- })
 
-vim.api.nvim_create_user_command('DiffOrig', 'vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis', {})
+vim.api.nvim_create_user_command('DiffOrig',
+  'vert new | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis', {})
 
 vim.fn.sign_define('DiagnosticSignError', { text = '', texthl = 'DiagnosticSignError' })
 vim.fn.sign_define('DiagnosticSignWarn', { text = '', texthl = 'DiagnosticSignWarn' })
@@ -176,3 +177,17 @@ vim.cmd [[
   highlight Normal ctermbg=none
   highlight NonText ctermbg=none
 ]]
+
+
+
+-- built-in autocomplete
+vim.opt.completeopt = { "menuone", "noinsert", "popup" }
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    end
+  end,
+})

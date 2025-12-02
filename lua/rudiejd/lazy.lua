@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup('rudiejd.plugins', {
   dev = {
-    path = '~/github',
+    path = '~/git',
     patterns = {},
     fallback = false,
   },
