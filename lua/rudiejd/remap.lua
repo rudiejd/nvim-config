@@ -40,6 +40,10 @@ vim.keymap.set('n', '<leader>x', vim.diagnostic.setqflist, { desc = 'E[x]ception
 -- This pneumonic is really bad, I'm just used to the built-in bind that got removed
 vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { desc = '[G]o [L]ist - open diagnostic list. ' })
 
+-- Enable / disable search highlighting
+vim.keymap.set('n', ']oh', function() vim.opt_global.hlsearch = false end, { desc = 'Disable search highlighting'})
+vim.keymap.set('n', '[oh', function() vim.opt_global.hlsearch = true end, { desc = 'Enable search highlighting'})
+
 -- Enable/disable virtual text
 vim.keymap.set('n', ']oy', function() vim.diagnostic.config { virtual_text = false } end,
   { desc = 'Disable virtual text for LSP diagnostics' })
