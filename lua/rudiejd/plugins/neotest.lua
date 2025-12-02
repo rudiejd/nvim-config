@@ -7,6 +7,7 @@ return {
       'nvim-lua/plenary.nvim',
       'nvim-neotest/neotest-python',
       'nvim-neotest/neotest-plenary',
+      'nvim-neotest/nvim-nio',
       'Issafalcon/neotest-dotnet',
       'haydenmeade/neotest-jest',
       'antoinemadec/FixCursorHold.nvim',
