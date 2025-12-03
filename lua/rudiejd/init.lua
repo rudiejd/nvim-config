@@ -25,7 +25,7 @@ vim.lsp.config("msbuild_project_tools_server", {
 vim.lsp.enable('msbuild_project_tools_server')
 
 -- python
-vim.lsp.enable('zuban')
+vim.lsp.enable('ty')
 
 -- C++
 vim.lsp.enable('clangd')
