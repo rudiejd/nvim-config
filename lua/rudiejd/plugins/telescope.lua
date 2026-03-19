@@ -36,10 +36,6 @@ return {
 
     telescope.setup {
       defaults = {
-        preview = {
-          treesitter = false,
-        },
-        layout_strategy = "vertical",
         mappings = {
           n = {
             ["<C-q>"] = send_current_buffer_to_qflist,
