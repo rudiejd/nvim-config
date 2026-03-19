@@ -81,3 +81,5 @@ vim.lsp.enable 'texlab'
 require 'rudiejd.remap'
 require 'rudiejd.set'
 require 'rudiejd.lazy'
+
+require('vim._extui').enable({enable = true, msg = { target = 'cmd', timeout = 4000 }})
