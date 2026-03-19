@@ -86,3 +86,6 @@ end, { expr = true }, 'i')
 keymap('/', function()
   return pumvisible() and '<C-e>' or '/'
 end, { expr = true }, 'i')
+
+-- built-in LSP
+keymap('gd', vim.lsp.buf.definition, { desc = '[g]o to [d]efinition'}, 'n')
