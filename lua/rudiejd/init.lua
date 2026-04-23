@@ -33,7 +33,7 @@ vim.lsp.enable 'clangd'
 vim.lsp.enable 'ocamllsp'
 
 -- JS/TS
-vim.lsp.enable 'vtsls'
+-- vim.lsp.enable 'vtsls'
 vim.lsp.enable 'svelte'
 
 vim.lsp.enable 'dockerls'
@@ -82,4 +82,4 @@ require 'rudiejd.remap'
 require 'rudiejd.set'
 require 'rudiejd.lazy'
 
-require('vim._extui').enable({enable = true, msg = { target = 'cmd', timeout = 4000 }})
+require('vim._core.ui2').enable({enable = true, msg = { target = 'cmd', timeout = 4000 }})
