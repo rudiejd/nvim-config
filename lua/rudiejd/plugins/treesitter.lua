@@ -1,6 +1,7 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 'vim', 'vimdoc', 'luadoc', 'lua', 'c_sharp', 'javascript', 'rust' },
