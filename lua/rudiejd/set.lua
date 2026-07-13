@@ -192,3 +192,7 @@ vim.cmd [[
 --     end
 --   end,
 -- })
+--
+
+-- with ui2, cmd is a floating window. free real estate!
+vim.o.cmdheight = 0
