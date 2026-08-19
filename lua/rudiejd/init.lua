@@ -78,6 +78,8 @@ vim.lsp.enable 'expert'
 -- LaTeX
 vim.lsp.enable 'texlab'
 
+vim.lsp.enable 'copilot'
+
 require 'rudiejd.remap'
 require 'rudiejd.set'
 require 'rudiejd.aucmd'
