@@ -80,6 +80,8 @@ vim.lsp.enable 'texlab'
 
 vim.lsp.enable 'copilot'
 
+vim.lsp.enable 'harper_ls'
+
 require 'rudiejd.remap'
 require 'rudiejd.set'
 require 'rudiejd.aucmd'
